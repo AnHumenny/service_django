@@ -7,18 +7,18 @@ from django.views.generic import (
 
 class BaseStationListView(ListView):
     model = BaseStation
-    queryset = BaseStation.objects.all().order_by("id")
-    paginate_by = 50
+    queryset = BaseStation.objects.all().order_by("id").values("id", "number", "city", "address")
+    paginate_by = 25
 
 
 class BaseStationLisGomelView(ListView):
     model = BaseStation
-    queryset = BaseStation.objects.filter(city="Гомель")
-    paginate_by = 20
+    queryset = BaseStation.objects.filter(city="Гомель").values("id", "number", "city", "address")
+    paginate_by = 25
 
 
 class BaseStationLisMinskView(ListView):
     model = BaseStation
-    queryset = BaseStation.objects.filter(city="Минск")
-    paginate_by = 20
+    queryset = BaseStation.objects.filter(city="Минск").values("id", "number", "city", "address")
+    paginate_by = 25
 
