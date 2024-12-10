@@ -30,8 +30,18 @@ def download_csv_actual_month(request):
     writer.writerow(['ID', 'Реестр', 'Дата', 'Город', 'Улица', 'Дом', 'Квартира',
                      'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])
     for obj in Info.objects.all().filter(date_created__range=(first_day_of_month, last_day_of_month)).order_by("id"):
-        writer.writerow([obj.id, obj.reestr, obj.date_created, obj.city, obj.street, obj.home,
-                         obj.apartment, obj.name, obj.cable_1, obj.cable_2, obj.cable_3, obj.connector
+        writer.writerow([obj.id,
+                         obj.reestr,
+                         obj.date_created.strftime('%Y-%m-%d'),
+                         obj.city,
+                         obj.street,
+                         obj.home,
+                         obj.apartment,
+                         obj.name,
+                         obj.cable_1,
+                         obj.cable_2,
+                         obj.cable_3,
+                         obj.connector
                          ])
     return response
 
@@ -47,9 +57,19 @@ def date_range_view(request):
             writer.writerow(['ID', 'Реестр', 'Дата', 'Город', 'Улица', 'Дом',
                              'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])  # Замените на Ваши поля
             for obj in Info.objects.all().filter(date_created__range=(start_date, end_date)).order_by("id"):
-                writer.writerow([obj.id, obj.reestr, obj.date_created, obj.city, obj.street, obj.home,
-                                 obj.apartment, obj.name, obj.cable_1, obj.cable_2, obj.cable_3, obj.connector
-                                 ])
+                writer.writerow([obj.id,
+                         obj.reestr,
+                         obj.date_created.strftime('%Y-%m-%d'),
+                         obj.city,
+                         obj.street,
+                         obj.home,
+                         obj.apartment,
+                         obj.name,
+                         obj.cable_1,
+                         obj.cable_2,
+                         obj.cable_3,
+                         obj.connector
+                         ])
                 print(obj.home, obj.apartment, obj.name)
             return response
     else:
