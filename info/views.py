@@ -55,7 +55,7 @@ def date_range_view(request):
             end_date = form.cleaned_data['end_date']
             writer = csv.writer(response)
             writer.writerow(['ID', 'Реестр', 'Дата', 'Город', 'Улица', 'Дом',
-                             'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])  # Замените на Ваши поля
+                             'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])
             for obj in Info.objects.all().filter(date_created__range=(start_date, end_date)).order_by("id"):
                 writer.writerow([obj.id,
                          obj.reestr,

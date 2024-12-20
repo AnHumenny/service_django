@@ -68,9 +68,9 @@ def start_page(request):
 def search(request):
     result = request.GET.get('q')
     query = result.split(", ")
-    print("query", len(query))
     if len(query) < 2 or len(query) > 30 :
-        return render(request, 'index/search_results.html', {'uncorrect': "Некорректные условия запроса! "})
+        return render(request, 'index/search_results.html',
+                      {'uncorrect': "Некорректные условия запроса! "})
     if query[0] == "старт":
         results = Index.objects.all()
         if query[1]:
