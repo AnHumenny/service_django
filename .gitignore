@@ -52,8 +52,8 @@ Thumbs.db
 # текстовые файлы
 *.txt
 *.doc
-*docx
-*csv
+*.docx
+*.csv
 
 # медиафайлы
 .*jpg
