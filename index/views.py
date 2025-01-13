@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.paginator import Paginator
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncMonth
@@ -5,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from info.models import Info
 from accident.models import Accident
-from .models import Index
+from .models import Index, Material, ExpansionFttx
 from fttx.models import Fttx
 from key.models import Key
 from manual.models import Manual
@@ -30,17 +32,38 @@ now = date.today()
 def start_page(request):
     start_date = timezone.datetime(now.year, 1, 1)
     end_date = timezone.datetime(now.year, 12, 31)
-    ind = Index.objects.order_by("-date_created")[:30]  # 100 последних записей
-    paginator = Paginator(ind, 3)  # Show 25  per page.
+    ind = Index.objects.order_by("-id")[:30]  # 30 последних записей
+    paginator = Paginator(ind, 3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    data_obj = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-date_created").
-                values("id", "date_created", "city", "street", "home", "apartment", "name", ))
-    paginator = Paginator(data_obj, 10)  # Show 25  per page.
+    data_obj = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-id").
+                values("id", "reestr", "date_created", "city", "street", "home", "apartment", "name", ))
+    paginator = Paginator(data_obj, 10)
     page_number = request.GET.get("pag")
     data = paginator.get_page(page_number)
-    # result_cable = Info.objects.values("street").filter(date_created__range=(start_date, end_date)).annotate(
-    #      month=TruncMonth('date_created')).values('month').annotate(total_amount=Sum('cable_1')+Sum('cable_2')+Sum("cable_3")).order_by('month')
+    result_cable = Info.objects.values("street").filter(date_created__range=(start_date, end_date)).annotate(
+          month=TruncMonth('date_created')).values('city', 'month').annotate(total_amount=Sum('cable_1')+Sum('cable_2')+Sum("cable_3")).order_by('month')
+    current_year = datetime.now().year
+
+    result_expansion = (
+        ExpansionFttx.objects
+        .filter(date__year=current_year)  # Фильтруем по году
+        .aggregate(total_cable=Sum('cable'))  # Суммируем все значения поля `cable`
+    )
+    print(f"Общая сумма всех значений cable за {current_year} год: {result_expansion['total_cable']}")
+    res_expansion = result_expansion['total_cable']
+
+    print(current_year)
+    result_year = Material.objects.values_list('cable', flat=True).first()
+    print("result_cable", result_cable)
+    total_sum = result_cable.aggregate(total_sum=Sum('total_amount'))['total_sum']
+    print("total_sum", total_sum)
+    print("result_year" , result_year)
+    if result_year is None or total_sum is None:
+        total = None
+    else:
+        total = result_year - total_sum - res_expansion
+
     l = (Info.objects.filter(date_created__range=(start_date, end_date))
          .annotate(month=TruncMonth('date_created'))
          .values('month')
@@ -51,7 +74,7 @@ def start_page(request):
         temp = row.get("count")
         dat.append(int(temp))
     accident_query = Accident.objects.order_by("-id").filter(status="open")
-    paginator = Paginator(accident_query, 10)  # Show 25  per page.
+    paginator = Paginator(accident_query, 10)
     page_number = request.GET.get("pag")
     accident = paginator.get_page(page_number)
     check_query = Accident.objects.order_by("-id").filter(status="check")
@@ -59,11 +82,12 @@ def start_page(request):
     page_number = request.GET.get("pag")
     check = paginator.get_page(page_number)
     close_query = Accident.objects.order_by("-id").filter(status="close")[:10]
-    paginator = Paginator(close_query, 10)  # Show 25  per page.
+    paginator = Paginator(close_query, 10)
     page_number = request.GET.get("pag")
     close = paginator.get_page(page_number)
-    return render(request, "index/index_list.html", {"page_obj": page_obj, "data_list": data,
-                                                     "date": dat, "accident": accident, "check": check, "close": close})
+    return render(request, "index/index_list.html", {"page_obj": page_obj, "result_cable": result_cable, "data_list": data,
+                                                     "date": dat, "accident": accident, "check": check, "close": close,
+                                                    "total": total, "current_year" : current_year, "res_expansion": res_expansion})
 
 def search(request):
     result = request.GET.get('q')
