@@ -88,24 +88,32 @@
         });
     </script>
         </th></tr>
-       {% for row in result_cable %}
+            <tr class="table-string" VALIGN=top>
+            <th class="title-table table-item th-item" width="150" colspan="7">
+                Остаток по кабелю utp 5e на {{ current_date|safe }} | {{ total|safe }}  метров <br><br>
+                Расширение FTTX: {{ res_expansion|safe }} метров<br>
+                Монтаж точек WTTX {{ res_expansion_wttx|safe }} метров<br><br>
+            </th>
+        </tr>
         <tr class="table-string" VALIGN=top>
-            <th class="title-table table-item th-item" width="150" colspan="7">На {{ row.month|date:'Y-m-d' }} использовано
-                {{ row.total_amount }} метров utp 5e</th>
-
+            {% for row in result_cable %}
+            <th class="title-table table-item th-item" width="150" colspan="7">
+                FTTX | город : {{ row.city|safe }} | год: {{ row.month|date:"Y : M"|safe }} |
+                использовано {{ row.total_amount|safe }} метров utp 5e</th>
         </tr>
         {% endfor %}
+
     </table>
 
 </th><th width="60%">
 
-    <table  >
+    <table>
 
         {% for fttx in data_list %}
         <tr class="table-string">
             <th class="title-table table-item th-item"> {{ fttx.id|safe }}
             </th>
-            <th class="title-table table-item th-item"> {{ fttx.reestr|safe }}
+            <th class="title-table table-item th-item">  {{ fttx.reestr|safe }}
             <th class="title-table table-item th-item"> {{ fttx.date_created|date:'Y-m-d' }}
             </th>
             <th class="title-table table-item th-item"> {{ fttx.city|safe }}
@@ -163,7 +171,6 @@
             </th>
              <th class="title-table table-item th-item">{{ inc.address|safe }}
             </th>
-
             <th class="title-table table-item th-item"> {{ inc.status|safe }}
             </th>
         </tr>

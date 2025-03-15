@@ -1,122 +1,62 @@
-import os
-
-from django.http import HttpResponse
 from django.shortcuts import render
-from base.settings import BASE_DIR
+from .logic import info_dlink, info_qubiquity, file_client, file_railway, file_instr_gomel, download_dlink, \
+    download_ubiquity, download_client, download_railway, download_instruction
 
 
 def start_filebrowser(request):
-
     return render(request, 'filewiever/index.html')
 
 
 def file_dlink_gomel(request):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/dlink'
-    files = os.listdir(directory)
-    files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
-    files = sorted(files)
-    context = {
-        'files_dlink': files,
-        'directory': directory,
-    }
+    """список файлов директории `dlink`"""
+    context = info_dlink()
     return render(request, 'filewiever/all_list.html', context)
+
 
 def file_ubiquity_gomel(request):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/ubiquity'
-    files = os.listdir(directory)
-    files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
-    context = {
-        'files_ubiquity': files,
-        'directory': directory,
-    }
+    """список файлов директории `qubiquity`"""
+    context = info_qubiquity()
     return render(request, 'filewiever/all_list.html', context)
+
 
 def file_client_gomel(request):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/client'
-    files = os.listdir(directory)
-    files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
-    files = sorted(files)
-    context = {
-        'files_client': files,
-        'directory': directory,
-    }
+    """список файлов директории `Клиентские(mikrotik, qubiquity, huawei)`"""
+    context = file_client()
     return render(request, 'filewiever/all_list.html', context)
+
 
 def file_railway_gomel(request):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/railway'
-    files = os.listdir(directory)
-    files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
-    files = sorted(files)
-    context = {
-        'files_railway': files,
-        'directory': directory,
-    }
+    """список файлов директории `БелЖД (mikrotik, qubiquity)`"""
+    context = file_railway()
     return render(request, 'filewiever/all_list.html', context)
 
+
 def file_instruction_gomel(request):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/instruction'
-    files = os.listdir(directory)
-    files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
-    files = sorted(files)
-    context = {
-        'files_instruction': files,
-        'directory': directory,
-    }
+    """список файлов директории `Инструкции`"""
+    context = file_instr_gomel()
     return render(request, 'filewiever/all_list.html', context)
 
 
 def file_download_dlink(request, file):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/dlink'  # Укажите путь к Вашей директории
-    file_path = os.path.join(directory, file)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{file}"'
-            return response
-    else:
-        return HttpResponse("File not found", status=404)
+    """скачивание файла директории `dlink`"""
+    return download_dlink(file)
+
 
 def file_download_ubiquity(request, file):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/ubiquity'  # Укажите путь к Вашей директории
-    file_path = os.path.join(directory, file)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{file}"'
-            return response
-    else:
-        return HttpResponse("File not found", status=404)
+    """скачивание файла директории `ubiquity`"""
+    return download_ubiquity(file)
+
 
 def file_download_client(request, file):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/client'  # Укажите путь к Вашей директории
-    file_path = os.path.join(directory, file)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{file}"'
-            return response
-    else:
-        return HttpResponse("File not found", status=404)
+    """скачивание файла директории `Клиентские`"""
+    return download_client(file)
 
 
 def file_download_railway(request, file):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/railway'  # Укажите путь к Вашей директории
-    file_path = os.path.join(directory, file)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{file}"'
-            return response
-    else:
-        return HttpResponse("File not found", status=404)
+    """скачивание файла директории `БелЖД`"""
+    return download_railway(file)
+
 
 def file_download_instruction(request, file):
-    directory = f'{BASE_DIR}/filewiever/files/gomel/instruction'  # Укажите путь к Вашей директории
-    file_path = os.path.join(directory, file)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{file}"'
-            return response
-    else:
-        return HttpResponse("File not found", status=404)
+    """скачивание файла директории `Инструкции`"""
+    return download_instruction(file)

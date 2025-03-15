@@ -2,6 +2,7 @@ from django.shortcuts import render
 import csv
 from django.utils import timezone
 from .forms import DateForm
+from .logic import csv_actual_month, range_view
 from .models import Info
 from django.http import HttpResponse
 from django.views.generic import (
@@ -12,67 +13,23 @@ from django.views.generic import (
 
 class InfoListView(ListView):
     model = Info
-    queryset = Info.objects.all().order_by("-date_created")  # Это ключевой запрос
+    queryset = Info.objects.all().order_by("-id")
     paginate_by = 50
+
 
 class InfoDetailView(DetailView):
     model = Info
 
 
 def download_csv_actual_month(request):
-    now = timezone.now()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="data.csv"'
-    first_day_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    last_day_of_month = (first_day_of_month.replace(month=first_day_of_month.month + 1, day=1) - timezone.timedelta(
-        days=1)) if now.month < 12 else now.replace(year=now.year + 1, month=1, day=1) - timezone.timedelta(days=1)
-    writer = csv.writer(response)
-    writer.writerow(['ID', 'Реестр', 'Дата', 'Город', 'Улица', 'Дом', 'Квартира',
-                     'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])
-    for obj in Info.objects.all().filter(date_created__range=(first_day_of_month, last_day_of_month)).order_by("id"):
-        writer.writerow([obj.id,
-                         obj.reestr,
-                         obj.date_created.strftime('%Y-%m-%d'),
-                         obj.city,
-                         obj.street,
-                         obj.home,
-                         obj.apartment,
-                         obj.name,
-                         obj.cable_1,
-                         obj.cable_2,
-                         obj.cable_3,
-                         obj.connector
-                         ])
-    return response
+    """скачать отчёт fttx текущий месяц в csv"""
+    return csv_actual_month()
+
 
 def date_range_view(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="data.csv"'
-    if request.method == 'POST':
-        form = DateForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            writer = csv.writer(response)
-            writer.writerow(['ID', 'Реестр', 'Дата', 'Город', 'Улица', 'Дом',
-                             'ФИО абонента', 'кабель 1', 'кабель 2', 'кабель 3', 'коннектор'])
-            for obj in Info.objects.all().filter(date_created__range=(start_date, end_date)).order_by("id"):
-                writer.writerow([obj.id,
-                         obj.reestr,
-                         obj.date_created.strftime('%Y-%m-%d'),
-                         obj.city,
-                         obj.street,
-                         obj.home,
-                         obj.apartment,
-                         obj.name,
-                         obj.cable_1,
-                         obj.cable_2,
-                         obj.cable_3,
-                         obj.connector
-                         ])
-                print(obj.home, obj.apartment, obj.name)
-            return response
-    else:
-        form = DateForm()
-    return render(request, 'info/csv.html', {'form': form})
+    """форма fttx выбрать по датам, скачать в csv"""
+    result = range_view(request)
+    if isinstance(result, HttpResponse):
+        return result
+    return render(request, 'info/csv.html', result)
 

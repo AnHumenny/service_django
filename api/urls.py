@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (UsersViewSet, InfoViewSet, InfoViewSetPrevios, SearchKeyListMazurova, SearchKeyListGolovackogo,
+from .views import (UsersViewSet, InfoViewSet, SearchKeyListMazurova, SearchKeyListGolovackogo,
                     SearchKeyListKozhara, SearchKeyListBorodina, SearchKeyListNovopolesskaya,
                     SearchKeyListHataevicha, SearchKeyListStarochernigovskaya, SearchKeyListTelegina,
                     ViewOpenAccident, ViewCheckAccident, ViewCloseAccident
@@ -9,7 +9,6 @@ from .views import (UsersViewSet, InfoViewSet, InfoViewSetPrevios, SearchKeyList
 router = DefaultRouter()
 router.register(r'пользователи', UsersViewSet, basename='users')
 router.register(r'info_текущий месяц', InfoViewSet, basename='actualmonth')
-router.register(r'info_предыдущий месяц', InfoViewSetPrevios, basename="previosmonth")
 router.register(r'ключи_мазурова', SearchKeyListMazurova, basename='keys_mazurova')
 router.register(r'ключи_головацкого', SearchKeyListGolovackogo, basename='keys_golovackogo')
 router.register(r'ключи_кожара', SearchKeyListKozhara, basename='keys_kozhara')

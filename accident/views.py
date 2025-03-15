@@ -1,8 +1,6 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import render
-import csv
-from django.utils import timezone
+from .logic import current_csv, previos_csv
 from .models import Accident
 from django.views.generic import (
     ListView,
@@ -10,65 +8,46 @@ from django.views.generic import (
 )
 
 class AccidentListView(ListView):
+    """Инциденты общий лист"""
     model = Accident
-    queryset = Accident.objects.all().order_by("-datetime_open")
+    queryset = Accident.objects.all().order_by("-id")
     paginate_by = 20
 
 class AccidentOpenView(ListView):
+    """Инциденты в статусе `Open`"""
     model = Accident
-    queryset = Accident.objects.order_by("-datetime_open").filter(status="open")[:5]
+    queryset = Accident.objects.order_by("-id").filter(status="open")[:5]
     paginate_by = 20
 
 class AccidentCloseView(ListView):
+    """Инциденты в статусе `Close`"""
     model = Accident
-    queryset = Accident.objects.order_by("-datetime_open").filter(status="close")[:30]
+    queryset = Accident.objects.order_by("-id").filter(status="close")[:30]
     paginate_by = 20
 
 class AccidentCheckView(ListView):
+    """Инциденты в статусе `Check`"""
     model = Accident
-    queryset = Accident.objects.order_by("-datetime_open").filter(status="check")
+    queryset = Accident.objects.order_by("-id").filter(status="check")
     paginate_by = 20
 
-
 class AccidentDetailView(DetailView):
+    """Инциденты детальный по id"""
     model = Accident
 
 
 def download_actual_accident(request):
-    now = timezone.now()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="accident.csv"'
+    """скачать отчёт fttx/wttx(инциденты) в csv текущий месяц"""
+    return current_csv()
 
-    first_day_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    last_day_of_month = (first_day_of_month.replace(month=first_day_of_month.month + 1, day=1) - timezone.timedelta(
-        days=1)) if now.month < 12 else now.replace(year=now.year + 1, month=1, day=1) - timezone.timedelta(days=1)
+def download_previos_accident(request):
+    """скачать отчёт fttx/wttx(инциденты) csv предыдущий месяц"""
+    return previos_csv()
 
-    accidents = (Accident.objects.filter(datetime_close__range=(first_day_of_month, last_day_of_month))
-                 .filter(status="close").order_by("-id"))
-
-    writer = csv.writer(response)
-    writer.writerow(['Номер', 'Категория', 'Дата открытия', 'Проблема', 'Город', 'Адрес', 'Имя',
-                     'Комментарий', 'Решение', 'Статус заявки'])
-
-    for accident in accidents:
-        writer.writerow([
-            accident.number,
-            accident.category,
-            accident.datetime_open.strftime('%Y-%m-%d'),
-            accident.problem,
-            accident.city,
-            accident.address,
-            accident.name,
-            accident.comment,
-            accident.decide,
-            accident.status,
-        ])
-
-    return response
 
 def listing(request):
     inc = Accident.objects.all()
-    paginator = Paginator(inc, 15)  # Show 25  per page.
+    paginator = Paginator(inc, 15)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "accident_list.html", {"page_obj": page_obj, "accident_list": inc})

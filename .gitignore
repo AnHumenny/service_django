@@ -1,6 +1,7 @@
 # Папки и файлы для исключения
 
 .env
+**/migrations/
 
 # Папки виртуального окружения
 venv/
@@ -56,7 +57,7 @@ Thumbs.db
 *.csv
 
 # медиафайлы
-.*jpg
-.*jpeg
-.*gif
-.*png
+*.jpg
+*.jpeg
+*.gif
+*.png

@@ -38,17 +38,17 @@ class InfoViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         return Response({"detail": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-class InfoViewSetPrevios(InfoViewSet):
-    now = date.today()
-    start_date = timezone.datetime(now.year, now.month-1, 1)
-    if now.month == 1:
-        start_date = timezone.datetime(now.year - 1, 12, 1)
-    else:
-        start_date = timezone.datetime(now.year, now.month - 1, 1)
-    end_date = (start_date + relativedelta(months=1)) - timezone.timedelta(days=1)
-    queryset = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-id").
-                values("id", "date_created", "city", "street", "home", "apartment", "name"))
-    serializer_class = InfoSerializerPrevios
+# class InfoViewSetPrevios(InfoViewSet):
+#     now = date.today()
+#     start_date = timezone.datetime(now.year, now.month-1, 1)
+#     if now.month == 1:
+#         start_date = timezone.datetime(now.year - 1, 12, 1)
+#     else:
+#         start_date = timezone.datetime(now.year, now.month - 1, 1)
+#     end_date = (start_date + relativedelta(months=1)) - timezone.timedelta(days=1)
+#     queryset = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-id").
+#                 values("id", "date_created", "city", "street", "home", "apartment", "name"))
+#     serializer_class = InfoSerializerPrevios
 
 
 class SearchKeyListMazurova(viewsets.ModelViewSet):
