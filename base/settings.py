@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'filewiever.apps.FilewieverConfig',
     'gazprom.apps.GazpromConfig',
     'analutics.apps.AnaluticsConfig',
+    'material.apps.MaterialConfig',
     'tinymce',
     'api',
     'rest_framework',

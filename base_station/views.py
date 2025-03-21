@@ -21,4 +21,3 @@ class BaseStationLisMinskView(ListView):
     model = BaseStation
     queryset = BaseStation.objects.filter(city="Минск").values("id", "number", "city", "address")
     paginate_by = 25
-

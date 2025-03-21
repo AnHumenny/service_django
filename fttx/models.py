@@ -4,7 +4,7 @@ from tinymce.models import HTMLField
 
 
 class Fttx(
-    models.Model):  # Создаём новый класс, который будет служить для блога моделью, указывая все необходимые элементы.
+    models.Model):
     city = models.CharField(max_length=30)
     claster = models.CharField(max_length=30)
     street = models.CharField(max_length=40)
@@ -17,4 +17,4 @@ class Fttx(
         return f"{self.city}, {self.street}, {self.number}"
 
     class Meta:
-        verbose_name_plural = "FttxX"  # Указываем правильное написание для множественного числа слова Entry
+        verbose_name_plural = "FttxX"

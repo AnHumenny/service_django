@@ -1,0 +1,66 @@
+from django.db import models
+
+class Material(models.Model):
+    date = models.DateField(verbose_name="Дата")
+    cable = models.IntegerField(default=0)
+    connector = models.IntegerField(default=0)
+    crossbox = models.IntegerField(default=0)
+    plint = models.IntegerField(default=0)
+    vols = models.IntegerField(default=0)
+    mediaconverter = models.IntegerField(default=0)
+    sfp = models.IntegerField(default=0)
+    electrical_tape = models.IntegerField(default=0)
+    screeds = models.IntegerField(default=0)
+    corrugation = models.IntegerField(default=0)
+    bracket = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Приход на {self.date}"
+
+    class Meta:
+        db_table = "_material"
+        verbose_name = "Материал"
+        verbose_name_plural = "Материалы"
+
+
+class ExpansionFttx(models.Model):
+    date = models.DateField(verbose_name="Дата")
+    city = models.CharField(max_length=50)
+    street = models.CharField(max_length=50, null=True, blank=True)
+    home = models.CharField(max_length=10, null=True, blank=True)
+    entrance = models.IntegerField(null=True, blank=True)
+    floor = models.IntegerField(null=True, blank=True)
+    cable = models.IntegerField()
+    connector = models.IntegerField()
+    crossbox = models.IntegerField()
+    plint = models.IntegerField()
+    type_of_switch = models.CharField(max_length=50, null=True, blank=True)
+    quantity_of_switch = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.date} -- г. {self.city}, ул. {self.street}, д. {self.home} "
+
+    class Meta:
+        db_table = "_expansion"
+        verbose_name = "Расширение fttx"
+        verbose_name_plural = "Расширение fttx "
+
+
+class ExpansionWTTX(models.Model):
+    date = models.DateField(verbose_name="Дата")
+    city = models.CharField(max_length=50)
+    address = models.CharField(max_length=255)
+    cable = models.IntegerField(default=0)
+    connector = models.IntegerField(default=0)
+    type_of_switch = models.CharField(max_length=50, null=True, blank=True)
+    quantity_of_switch = models.IntegerField(default=0)
+    type_of_wifi = models.CharField(max_length=50, null=True, blank=True)
+    quantity_of_wifi = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.date} - {self.address}"
+
+    class Meta:
+        db_table = "_expansion_WTTX"
+        verbose_name = "Монтаж WTTX"
+        verbose_name_plural = "Монтаж WTTX"

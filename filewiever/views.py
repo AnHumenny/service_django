@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .logic import info_dlink, info_qubiquity, file_client, file_railway, file_instr_gomel, download_dlink, \
+from .logic import info_dlink, info_ubiquity, file_client, file_railway, file_instr_gomel, download_dlink, \
     download_ubiquity, download_client, download_railway, download_instruction
 
 
@@ -7,34 +7,26 @@ def start_filebrowser(request):
     return render(request, 'filewiever/index.html')
 
 
-def file_dlink_gomel(request):
-    """список файлов директории `dlink`"""
-    context = info_dlink()
-    return render(request, 'filewiever/all_list.html', context)
+def file_gomel(request):
+    """Список файлов по Гомелю"""
+    context_dlink_dict = info_dlink()
+    context_dlink = list(context_dlink_dict.values())
 
+    info_ubiquity_dict = info_ubiquity()
+    context_ubiquity = list(info_ubiquity_dict.values())
 
-def file_ubiquity_gomel(request):
-    """список файлов директории `qubiquity`"""
-    context = info_qubiquity()
-    return render(request, 'filewiever/all_list.html', context)
+    context_client_dict = file_client()
+    context_client = list(context_client_dict.values())
 
+    context_railway_dict = file_railway()
+    context_railway = list(context_railway_dict.values())
 
-def file_client_gomel(request):
-    """список файлов директории `Клиентские(mikrotik, qubiquity, huawei)`"""
-    context = file_client()
-    return render(request, 'filewiever/all_list.html', context)
-
-
-def file_railway_gomel(request):
-    """список файлов директории `БелЖД (mikrotik, qubiquity)`"""
-    context = file_railway()
-    return render(request, 'filewiever/all_list.html', context)
-
-
-def file_instruction_gomel(request):
-    """список файлов директории `Инструкции`"""
-    context = file_instr_gomel()
-    return render(request, 'filewiever/all_list.html', context)
+    context_instruction_dict = file_instr_gomel()
+    context_instruction = list(context_instruction_dict.values())
+    return render(request, 'filewiever/gomel.html', {
+        'context_dlink': context_dlink, "context_ubiquity": context_ubiquity, "context_client": context_client,
+        "context_railway": context_railway, "context_instruction": context_instruction
+    })
 
 
 def file_download_dlink(request, file):

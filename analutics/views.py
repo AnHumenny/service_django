@@ -9,39 +9,15 @@ def actual_time():
 
 
 def actual_year(request):
-    """js-chart графика fttx на текущий год, круговой график с разбивкой по месяцам"""
+    """набор js-chart"""
     now = actual_time()
     dat_year = actual(now)
-    return render(request, "analutic/analutic_list.html",
-                  {"now_year": now.year, "date_year": dat_year})
-
-
-def vertical_bar(request):
-    """js-chart графика fttx на текущий год, столбчатый график по адресам"""
-    now = actual_time()
     answer = vertical(now)
-    return render(request, "analutic/vertical.html", {"month": answer[0], "dat_count": answer[1]})
-
-
-def year(request):
-    """js-chart графика fttx, круговой график с разбивкой по годам, выборка за последние 5 лет"""
-    answer = all_year()
-    return render(request, "analutic/all_year.html", {"year": answer[0], "count": answer[1]})
-
-
-def line_year(request):
-    """js-chart графика fttx, линейный график с разбивкой по годам и месяцам, выборка за последние 5 лет"""
-    now = actual_time()
-    answer = line(now.year)
-    return render(request, "analutic/line.html", {
-        "now_year": now.year,
-        "data": answer["data"],
-        "old_1": now.year - 1,
-        "data_1": answer["data_1"],
-        "old_2": now.year - 2,
-        "data_2": answer["data_2"],
-        "old_3": now.year - 3,
-        "data_3": answer["data_3"],
-        "old_4": now.year - 4,
-        "data_4": answer["data_4"],
-    })
+    answer_year = all_year()
+    answer_data = line(now.year)
+    return render(request, "analutic/all_analutic.html",
+                  { "date_year": dat_year, "month": answer[0], "dat_count": answer[1],
+                    "year": answer_year[0], "count": answer_year[1], "data": answer_data["data"],"now_year": now.year,
+                    "old_1": now.year - 1, "data_1": answer_data["data_1"], "old_2": now.year - 2,
+                    "data_2": answer_data["data_2"], "old_3": now.year - 3, "data_3": answer_data["data_3"],
+                    "old_4": now.year - 4, "data_4": answer_data["data_4"],})

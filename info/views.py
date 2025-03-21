@@ -1,7 +1,4 @@
 from django.shortcuts import render
-import csv
-from django.utils import timezone
-from .forms import DateForm
 from .logic import csv_actual_month, range_view
 from .models import Info
 from django.http import HttpResponse
@@ -32,4 +29,3 @@ def date_range_view(request):
     if isinstance(result, HttpResponse):
         return result
     return render(request, 'info/csv.html', result)
-

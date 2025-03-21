@@ -16,8 +16,8 @@ def info_dlink():
     return context
 
 
-def info_qubiquity():
-    """список файлов директории `qubiquity`"""
+def info_ubiquity():
+    """список файлов директории `ubiquity`"""
     directory = f'{BASE_DIR}/filewiever/files/gomel/ubiquity'
     files = os.listdir(directory)
     files = [f for f in files if os.path.isfile(os.path.join(directory, f))]

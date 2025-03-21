@@ -5,13 +5,13 @@ from tinymce.models import HTMLField
 
 
 class Manual(
-    models.Model):  # Создаём новый класс, который будет служить для блога моделью, указывая все необходимые элементы.
+    models.Model):
     type = models.CharField(max_length=20)
     model = models.CharField(max_length=100)
     description = HTMLField()
 
-    def __str__(self):  # С помощью функции меняем то, как будет представлена запись в модели.
-        return self.model   # Указываем, что она будет идентифицироваться с помощью своего заголовка.
+    def __str__(self):
+        return self.model
 
     class Meta:
-        verbose_name_plural = "Manuals"  # Указываем правильное написание для множественного числа слова Entry
+        verbose_name_plural = "Manuals"

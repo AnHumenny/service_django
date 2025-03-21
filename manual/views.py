@@ -16,6 +16,3 @@ class ManualListView(ListView):
 
 class ManualDetailView(DetailView):
     model = Manual
-
-
-

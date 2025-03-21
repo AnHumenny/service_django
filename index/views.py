@@ -1,16 +1,14 @@
 from datetime import datetime
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from info.models import Info
-from accident.models import Accident
 from .models import Index
-from fttx.models import Fttx
 from key.models import Key
-from manual.models import Manual
 from datetime import date
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from .logic import ind, data_obj, all_cable, total_cable, result_exp, res_expansion_wttx, total_utp, accident_query, \
-    check_query, close_query, expire
+    check_query, close_query, expire, info_search, incident_name, incident_addr, man, search_in_fttx, search_in_key, \
+    incident_number
 
 
 class IndexListView(ListView):
@@ -72,42 +70,56 @@ def start_page(request):
                                                      'current_date': current_date,"res_expansion": result_expansion,
                                                      "res_expansion_wttx": result_expansion_wttx})
 
-def search(request):
-    result = request.GET.get('q')
-    query = result.split(", ")
 
-    if len(query) < 2 or len(query) > 30 :
+def search(request):
+    """поиск по параметрам чекбокса"""
+    result = request.GET.get('q')
+    search_type = request.GET.get('search_type', 'info')
+    if len(result) < 2 or len(result) > 30 :
         return render(request, 'index/search_results.html',
                       {'uncorrect': "Некорректные условия запроса! "})
 
-    if query[0] == "старт":
-        results = Index.objects.all()
-        if query[1]:
-            results = results.filter(content__icontains=query[1])
-            return render(request, 'index/search_results.html', {'uncorrect': results})
+    if search_type == "info":
+        info_list = info_search(result)
+        if not info_list.exists():
+            return render(request, 'info/error.html',
+                          {'empty': f"По запросу {result} ничего не найдено"})
+        return render(request, 'info/info_list.html', {'info_list': info_list})
 
-    if query[0] == "инфо":
-        results = Info.objects.all()
-        if query[1]:
-            info_list = results.filter(name__icontains=query[1])
-            return render(request, 'info/info_list.html', {'info_list': info_list})
+    if search_type == "accident_number":
+        accident_name = incident_number(result)
+        if accident_name is None:
+            return render(request, 'accident/error.html',
+                          {'empty': f"По запросу {result} ничего не найдено"})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
 
-    if query[0] == "инцидент":
-        results = Accident.objects.all()
-        if query[1]:
-            accident_name = results.filter(name__icontains=query[1]).order_by("id")
-            return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
+    if search_type == "accident_name":
+        accident_name = incident_name(result)
+        if accident_name is None:
+            return render(request, 'accident/error.html',
+                          {'empty': f"По запросу {result} ничего не найдено"})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
 
-    if query[0] == "мануал":
-        results = Manual.objects.all()
-        if query[1]:
-            manual = results.filter(type=query[1])
-            return render(request, 'manual/manual_list.html', {'manual_list': manual})
+    if search_type == "accident_address":
+        accident_addr = incident_addr(result)
+        if accident_addr is None:
+            return render(request, 'accident/error.html', {'empty': "По запросу ничего не найдено"})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_addr})
 
-    if query[0] == "fttx":
-        fttx_search = get_object_or_404(Fttx, city=query[1], street=query[2], number=query[3])
+    if search_type == "manual":
+        manual_query = man(result)
+        if manual_query is None:
+            return render(request, 'manual/error.html', {'empty': "По запросу ничего не найдено"})
+        return render(request, 'manual/manual_list.html', {'manual_list': manual_query})
+
+    if search_type == "fttx":
+        fttx_search = search_in_fttx(result)
+        if fttx_search is None:
+            return render(request, 'fttx/error.html', {'empty': "По запросу ничего не найдено"})
         return render(request, 'fttx/fttx_detail.html', {'fttx': fttx_search})
 
-    if query[0] == "ключ":
-        key_search = get_object_or_404(Key, city=query[1], street=query[2], home=query[3])
+    if search_type == "key":
+        key_search = search_in_key(result)
+        if key_search is None:
+            return render(request, 'key/error.html', {'empty': "По запросу ничего не найдено"})
         return render(request, 'key/key_detail.html', {'key': key_search})

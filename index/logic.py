@@ -2,9 +2,13 @@ from datetime import datetime
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
+from fttx.models import Fttx
 from info.models import Info
 from accident.models import Accident
-from .models import Index, Material, ExpansionFttx, ExpansionWTTX
+from key.models import Key
+from manual.models import Manual
+from .models import Index
+from material.models import Material, ExpansionFttx, ExpansionWTTX
 from datetime import date
 
 now = date.today()
@@ -51,6 +55,7 @@ def total_utp():
 
 
 def data_obj():
+    """краткая сводка по последним абонам fttx"""
     data_object = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-id").
                 values("id", "reestr", "date_created", "city", "street", "home", "apartment", "name", ))
     return data_object
@@ -59,10 +64,10 @@ def data_obj():
 def result_exp():
     """расширение fttx"""
     res_exp = (
-        ExpansionFttx.objects
-        .filter(date__year=current_year)
-        .aggregate(total_cable=Sum('cable'))
-    )
+                ExpansionFttx.objects
+                .filter(date__year=current_year)
+                .aggregate(total_cable=Sum('cable'))
+               )
     res_expansion = res_exp['total_cable']
     return res_expansion
 
@@ -70,10 +75,10 @@ def result_exp():
 def res_expansion_wttx():
     """'Cборка wttx"""
     expansion_wttx = (
-        ExpansionWTTX.objects
-        .filter(date__year=current_year)
-        .aggregate(total_cable=Sum('cable'))
-    )
+                       ExpansionWTTX.objects
+                       .filter(date__year=current_year)
+                       .aggregate(total_cable=Sum('cable'))
+                      )
     res_wttx = expansion_wttx['total_cable']
     return res_wttx
 
@@ -81,10 +86,10 @@ def res_expansion_wttx():
 def expire():
     """разбор по месяцам"""
     res = (Info.objects.filter(date_created__range=(start_date, end_date))
-         .annotate(month=TruncMonth('date_created'))
-         .values('month')
-         .annotate(count=Count('id')).order_by('month')
-         )
+                               .annotate(month=TruncMonth('date_created'))
+                               .values('month')
+                               .annotate(count=Count('id')).order_by('month')
+                               )
     dat = []
     for row in res:
         temp = row.get("count")
@@ -108,3 +113,69 @@ def close_query():
     """блок инцидентов в статусе `Close`"""
     query = Accident.objects.order_by("-id").filter(status="close")[:30]
     return query
+
+
+def info_search(result):
+    """поиск в БД info_info (абоненты (ФИО))"""
+    answer = Info.objects.filter(name__icontains=result).filter(name__icontains=result)
+    return answer
+
+
+def incident_number(result):
+    """Поиск в инцидентах по номеру заявки"""
+    answer = Accident.objects.filter(number=result).order_by("id")
+    if answer is None:
+        return None
+    return answer
+
+
+def incident_name(result):
+    """Поиск в инцидентах по ФИО"""
+    res = result.split(" ")
+    if len(res) == 3:
+        answer = Accident.objects.filter(name=result).order_by("id")
+    else:
+        return None
+    return answer
+
+
+def incident_addr(result):
+    """Поиск в инцидентах по адресу"""
+    address = result.split(", ", 1)
+    first_addr = address[0].strip()
+    second_addr = address[1].strip()
+    if len (address) != 2:
+        return None
+    answer = Accident.objects.filter(city=first_addr, address=second_addr)
+    if not answer.exists():
+        return None
+    else:
+        return answer
+
+
+def man(result):
+    """поиск в мануалах"""
+    answer = Manual.objects.filter(type__icontains=result)
+    if not answer.exists():
+        return None
+    else:
+        return answer
+
+
+def search_in_fttx(result):
+    """поиск в fttx_fttx (подробная информация fttx по адресам)"""
+    result = result.split(", ")
+    answer = Fttx.objects.filter(city=result[0], street=result[1], number=result[2]).first()
+    if answer is None:
+        return None
+    else:
+        return answer
+
+def search_in_key(result):
+    """целевой поиск в ключах по адресу"""
+    res_key = result.split(", ")
+    answer = Key.objects.filter(city=res_key[0], street=res_key[1], home=res_key[2]).first()
+    if answer is None:
+        return None
+    else:
+        return answer

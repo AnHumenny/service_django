@@ -103,6 +103,3 @@ class ViewCheckAccident(viewsets.ModelViewSet):
 
 class ViewCloseAccident(ViewCheckAccident):
     queryset = SearchAccident.objects.all().filter(status="close").order_by("-id")[:20]
-
-
-

@@ -44,11 +44,3 @@ class FttxClasterAerodromView(ListView):
     queryset = (Fttx.objects.order_by("id").values("id", "city", "street", "claster", "number", "askue")
                 .filter(claster="Аэродром"))
     paginate_by = 20
-
-
-def listing(request):
-    inc = Fttx.objects.all()
-    paginator = Paginator(inc, 15)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    return render(request, "fttx_list.html", {"page_obj": page_obj, "accident_list": inc})

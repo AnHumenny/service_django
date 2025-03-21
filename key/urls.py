@@ -8,5 +8,4 @@ urlpatterns = [
         views.KeyListView.as_view(),
         name="key-list"
     ),
-
 ]

@@ -3,8 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Info(
-    models.Model):  # Создаём новый класс, который будет служить для блога моделью, указывая все необходимые элементы.
+class Info(models.Model):
     reestr = models.IntegerField()
     date_created = models.DateField(default=timezone.now)
     city = models.CharField(max_length=20)
@@ -18,8 +17,8 @@ class Info(
     connector = models.IntegerField()
 
 
-    def __str__(self):  # С помощью функции меняем то, как будет представлена запись в модели.
-        return f"{self.city}, {self.street}, {self.home}, {self.apartment}"   # Указываем, что она будет идентифицироваться с помощью своего заголовка.
+    def __str__(self):
+        return f"{self.city}, {self.street}, {self.home}, {self.apartment}"
 
     class Meta:
-        verbose_name_plural = "Info_s"  # Указываем правильное написание для множественного числа слова Entry
+        verbose_name_plural = "Info_s"

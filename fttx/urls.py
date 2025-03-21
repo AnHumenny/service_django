@@ -33,10 +33,4 @@ urlpatterns = [
         views.FttxClasterAerodromView.as_view(),
         name="fttx-claster-aerodrom-list"
     ),
-# path(
-#         "close/1",
-#         views.FttxCloseView.as_view(),
-#         name="accident-close-list"
-#     ),
-
 ]
