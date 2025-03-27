@@ -1,5 +1,13 @@
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    overflow: visible;
+}
         .main-table{
             position: center;
             top: 5;
@@ -77,10 +85,9 @@
             color: white; /* Цвет текста для активной ссылки */
         }
 
-        ol {
-        list-style-type:  none;
-        }
-
+        ul.nav {
+    list-style-type: none;
+}
 
         {
    box-sizing: border-box;
@@ -203,5 +210,43 @@ input[type="submit"] {
     opacity: 1; /* Показываем подсказку */
     top: 2em; /
 
+
+        .content-wrapper {
+            padding-top: 60px; 10
+        }
+
+        #main-table {
+            position: relative;
+        }
+        .search-input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5;
+    }
+
+    .search-input-group input[type="text"] {
+        flex: 1;
+        padding: 5px;
+    }
+
+    .search-input-group button {
+        padding: 5px 10px;
+        white-space: nowrap;
+    }
+
+    .search-type-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20;
+    }
+
+    .search-type-options label {
+        font-size: 12px;
+    }
+
+    .search-type-options input[type="radio"] {
+        margin-right: 5px;
+    }
 
     </style>
