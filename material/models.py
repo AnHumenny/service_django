@@ -84,10 +84,10 @@ class ChangeEquipment(models.Model):
     serial_number = models.CharField(null=True, blank=True, max_length=50)
     ORGANIZATION_CHOICES = (
         ("Выберите организацию", _('------')),
-        ('Органиция 1', _('Органиция 1')),
-        ('Органиция 1', _('Органиция 2')),
-        ('Органиция 3', _('Органиция 3')),
-        ('Органиция 4', _('Органиция 4')),
+        ('Организация 1', _('Организация 1')),
+        ('Организация 1', _('Организация 2')),
+        ('Организация 3', _('Организация 3')),
+        ('Организация 4', _('Организация 4')),
     )
 
     organization = models.CharField(max_length=50, choices=ORGANIZATION_CHOICES, default='------')
