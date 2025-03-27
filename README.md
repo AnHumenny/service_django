@@ -28,6 +28,7 @@ pip install -r requirements.txt
     DATABASE_USER='user'
     DATABASE_HOST='host'
     DATABASE_PORT='port'
+    ALLOWED_HOSTS='список ip-адресов'
 
 ##Примените миграции:
 python manage.py migrate
