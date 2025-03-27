@@ -1,4 +1,8 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from accident.models import Accident
+
 
 class Material(models.Model):
     date = models.DateField(verbose_name="Дата")
@@ -64,3 +68,35 @@ class ExpansionWTTX(models.Model):
         db_table = "_expansion_WTTX"
         verbose_name = "Монтаж WTTX"
         verbose_name_plural = "Монтаж WTTX"
+
+
+class ChangeEquipment(models.Model):
+    date = models.DateField(verbose_name="Дата")
+    number = models.CharField(max_length=10, unique=True)
+    city = models.CharField(max_length=50)
+    street = models.CharField(null=True, blank=True, max_length=50)
+    home = models.CharField(null=True, blank=True, max_length=8)
+    entrance = models.IntegerField(null=True, blank=True)
+    type_of_equipment = models.CharField(max_length=50)
+    quantity_of_equipment = models.IntegerField()
+    describe = models.TextField(max_length=2500)
+    mac_address = models.CharField(max_length=50)
+    serial_number = models.CharField(max_length=50)
+    ORGANIZATION_CHOICES = (
+        ("Выберите организацию", _('------')),
+        ('Стройсвязь', _('Стройсвязь')),
+        ('Профмонолит', _('Профмонолит')),
+    )
+
+    organization = models.CharField(max_length=50, choices=ORGANIZATION_CHOICES, default='------')
+
+    def __str__(self):
+        return f"{self.date} - {self.city} - {self.street} - {self.home} - {self.entrance} - {self.type_of_equipment}"
+
+    class Meta:
+        db_table = "_change_equipment"
+        verbose_name = "Замена оборудования"
+        verbose_name_plural = "Замена оборудования"
+
+
+

@@ -1,4 +1,4 @@
-from material.models import Material, ExpansionFttx, ExpansionWTTX
+from material.models import Material, ExpansionFttx, ExpansionWTTX, ChangeEquipment
 
 
 def all_material():
@@ -15,3 +15,9 @@ def exp_wttx():
     """монтаж оборудования wttx"""
     wttx = ExpansionWTTX.objects.all().order_by("-id")
     return wttx
+
+def change_equip():
+    """замена оборудования fttx/wttx"""
+    equip = ChangeEquipment.objects.all().order_by("-id")
+    return equip
+

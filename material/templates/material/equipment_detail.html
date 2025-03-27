@@ -1,0 +1,92 @@
+{% extends "index/base.html" %}
+
+        {% block content %}
+    <table>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" colspan="2">
+                <strong>Детальная информация по заявке id {{ object.id|safe }}</strong>
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item">
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Номер инцидента
+            </th>
+            <th class="title-table table-item th-item">
+                <a class="nav-link" href="{% url 'ass-detail' object.number %}">
+                {{ object.number|safe }}
+                </a>
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Дата замены
+            </th>
+            <th class="title-table table-item th-item"> {{ object.date|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Город
+            </th>
+            <th class="title-table table-item th-item"> {{ object.city|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Улица
+            </th>
+            <th class="title-table table-item th-item">{{ object.street|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Дом
+            </th>
+            <th class="title-table table-item th-item"> {{ object.home|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item"> Подьезд
+            </th>
+            <th class="title-table table-item th-item"> {{ object.entrance|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > Тип оборудования
+            </th>
+            <th class="title-table table-item th-item"> {{ object.type_of_equipment|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item"> Количество
+            </th>
+            <th class="title-table table-item th-item"> {{ object.quantity_of_equipment|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item"> Комментарий
+            </th>
+            <th class="title-table table-item th-item"> {{ object.describe|safe }}
+            </th>
+        </tr>
+
+        <tr class="table-string">
+            <th class="title-table table-item th-item" > MAC-адрес
+            </th>
+            <th class="title-table table-item th-item"> {{ object.mac_address|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item"> Серийный номер
+            </th>
+            <th class="title-table table-item th-item"> {{ object.serial_number|safe }}
+            </th>
+        </tr>
+        <tr class="table-string">
+            <th class="title-table table-item th-item"> Организация
+            </th>
+            <th class="title-table table-item th-item"> {{ object.organization|safe }}
+            </th>
+        </tr>
+
+    </table>
+        {% endblock %}

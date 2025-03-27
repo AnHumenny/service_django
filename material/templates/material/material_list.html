@@ -1,6 +1,7 @@
 {% extends "index/base.html" %}
 {% block content %}
 
+
 <div class="container mt-4">
     <!-- Навигация по вкладкам -->
     <ul class="nav nav-tabs" id="materialTab" role="tablist">
@@ -13,6 +14,9 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="wttx-tab" data-bs-toggle="tab" data-bs-target="#wttx" type="button" role="tab" aria-controls="wttx" aria-selected="false">Монтаж WTTX</button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="equipment-tab" data-bs-toggle="tab" data-bs-target="#equipment" type="button" role="tab" aria-controls="equipment" aria-selected="false">Замена оборудования</button>
+        </li>
     </ul>
 
     <div class="tab-content" id="materialTabContent">
@@ -21,7 +25,7 @@
             <table class="main-table table-item" width="90%">
                 <tr class="table-string">
                     <th class="title-table table-item th-item">
-                        Материалы (остаток на начало года\приход по месяцам)
+                        Материалы (остаток на начало года\приход по месяцам), замена оборудования
                     </th>
                 </tr>
             </table>
@@ -225,6 +229,60 @@
         {% endfor %}
     </table>
         </div>
+
+
+        <div class="tab-pane fade" id="equipment" role="tabpanel" aria-labelledby="equipment-tab">
+            <table class="main-table table-item" width="90%">
+                <tr class="table-string">
+                    <th class="title-table table-item th-item">
+                        Замена оборудования
+                    </th>
+                </tr>
+            </table>
+            <table class="main-table table-item">
+        <tr class="table-string" >
+            <th class="title-table table-item th-item"> ID
+            </th>
+            <th class="title-table table-item th-item" width="100"> Дата
+            </th>
+            <th class="title-table table-item th-item" width="50"> Город
+            </th>
+            <th class="title-table table-item th-item" width="50"> Улица
+            </th>
+            <th class="title-table table-item th-item" width="50"> Дом
+            </th>
+            <th class="title-table table-item th-item" width="50"> Подьезд
+            </th>
+            <th class="title-table table-item th-item" width="200"> Тип оборудования
+            </th>
+
+        </tr>
+        {% for row in equipment %}
+        <tr class="table-string" >
+            <th class="title-table table-item th-item">
+
+                 <a class="nav-link" href="{% url 'change-detail' row.id %}">
+                {{ row.id|safe }}
+                </a>
+            </th>
+            <th class="title-table table-item th-item" width="100"> {{ row.date|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="100"> {{ row.city|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="100"> {{ row.street|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="100"> {{ row.home|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="100"> {{ row.entrance|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="200"> {{ row.type_of_equipment|safe }}
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+        </div>
+
+
     </div>
 </div>
 
