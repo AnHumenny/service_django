@@ -79,13 +79,15 @@ class ChangeEquipment(models.Model):
     entrance = models.IntegerField(null=True, blank=True)
     type_of_equipment = models.CharField(max_length=50)
     quantity_of_equipment = models.IntegerField()
-    describe = models.TextField(max_length=2500)
-    mac_address = models.CharField(max_length=50)
-    serial_number = models.CharField(max_length=50)
+    describe = models.TextField(null=True, blank=True, max_length=2500)
+    mac_address = models.CharField(null=True, blank=True, max_length=50)
+    serial_number = models.CharField(null=True, blank=True, max_length=50)
     ORGANIZATION_CHOICES = (
         ("Выберите организацию", _('------')),
-        ('Стройсвязь', _('Стройсвязь')),
-        ('Профмонолит', _('Профмонолит')),
+        ('Органиция 1', _('Органиция 1')),
+        ('Органиция 1', _('Органиция 2')),
+        ('Органиция 3', _('Органиция 3')),
+        ('Органиция 4', _('Органиция 4')),
     )
 
     organization = models.CharField(max_length=50, choices=ORGANIZATION_CHOICES, default='------')
