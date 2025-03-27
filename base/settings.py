@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.85']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda x: [s.strip() for s in x.split(",")])
 
 # Application definition
 
@@ -141,9 +141,9 @@ USE_L10N = False
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # или любое другое имя директории
 
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static/",
+    BASE_DIR / "static",
 ]
 
 
