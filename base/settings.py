@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 from decouple import config
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'filewiever.apps.FilewieverConfig',
     'gazprom.apps.GazpromConfig',
     'analutics.apps.AnaluticsConfig',
+    'subtable.apps.SubtableConfig',
     'material.apps.MaterialConfig',
     'tinymce',
     'api',
@@ -119,6 +120,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# # CACHES dictionary which contains caching configurations.
+# CACHES = {
+#     # a cache alias or name. In this case, we use "default" as the alias.
+#     "default": {
+#         # Here, we're using the in-memory cache backend.
+#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+#
+#         # LOCATION parameter gives a unique name or identifier to this cache instance.
+#         "LOCATION": "unique-snowflake",
+#     }
+# }
+# CACHES dictionary, which contains caching configurations.
+# CACHES = {
+#     # we use "default" as the alias.
+#     "default": {
+#         # Here, we're using the database-backed cache backend.
+#         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+#
+#         # Provide a LOCATION parameter to specify the database table name where cached data will be stored.
+#         "LOCATION": "my_cache_table",
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

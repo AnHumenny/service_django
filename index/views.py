@@ -2,13 +2,13 @@ from datetime import datetime
 from django.shortcuts import render
 from info.models import Info
 from .models import Index
-from key.models import Key
 from datetime import date
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from .logic import ind, data_obj, all_cable, total_cable, result_exp, res_expansion_wttx, total_utp, accident_query, \
     check_query, close_query, expire, info_search, incident_name, incident_addr, man, search_in_fttx, search_in_key, \
     incident_number
+import re
 
 
 class IndexListView(ListView):
@@ -23,6 +23,9 @@ class InfoDataView(ListView):
 
 now = date.today()
 
+def mask_surname(full_name: str) -> str:
+    return re.sub(r'^\w+', '***** ', full_name)
+
 def start_page(request):
     current_year = datetime.now().year
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -32,7 +35,17 @@ def start_page(request):
     page_obj = paginator.get_page(page_number)
 
     data_object = data_obj()
-    paginator = Paginator(data_object, 10)
+
+    masked_data = [
+        {
+            **name,
+            'name': mask_surname(name['name'])
+        }
+        for name in data_object.values()
+    ]
+
+
+    paginator = Paginator(masked_data, 10)
     page_number = request.GET.get("pag")
     data = paginator.get_page(page_number)
 

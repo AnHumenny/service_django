@@ -132,32 +132,33 @@
 
         {% endfor %}
 
-        <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="11">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if data_list.has_previous %}
-                            <a href="?pag=1">&laquo;&laquo;&laquo; </a> |
-                            <a href="?pag={{ data_list.previous_page_number }}">previous</a>
-                        {% endif %}
-                    <span class="current">
-                        страница {{ data_list.number }} из {{ data_list.paginator.num_pages }} |
-                    </span>
-                    {% if data_list.has_next %}
-                        <a href="?pag={{ data_list.next_page_number }}">next</a> |
-                        <a href="?pag={{ data_list.paginator.num_pages }}"> &raquo;&raquo;&raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-            </th>
-        </tr>
+
         <tr>
         <tr class="table-string" VALIGN=top>
             <th class="title-table table-item th-item" width="150"  colspan="7"><br>Открытые инциденты
             </th>
         </tr>
-        {% for inc in accident %}
         <tr class="table-string" >
+            <th class="title-table table-item th-item"> ID
+            </th>
+            <th class="title-table table-item th-item">
+                    Номер
+            </th>
+            <th class="title-table table-item th-item"> Дата открытия
+            </th>
+            <th class="title-table table-item th-item"> Дата закрытия
+            </th>
+            <th class="title-table table-item th-item"> Город
+            </th>
+             <th class="title-table table-item th-item">Адрес
+            </th>
+            <th class="title-table table-item th-item">Организация
+            </th>
+            <th class="title-table table-item th-item"> Статус
+            </th>
+        </tr>
+        {% for inc in accident %}
+        <tr class="table-string">
             <th class="title-table table-item th-item"> {{ inc.id|safe }}
             </th>
             <th class="title-table table-item th-item">
@@ -172,6 +173,8 @@
             <th class="title-table table-item th-item"> {{ inc.city|safe }}
             </th>
              <th class="title-table table-item th-item">{{ inc.address|safe }}
+            </th>
+            <th class="title-table table-item th-item">{{ inc.organization|safe }}
             </th>
             <th class="title-table table-item th-item"> {{ inc.status|safe }}
             </th>
@@ -217,6 +220,8 @@
             </th>
              <th class="title-table table-item th-item">Адрес
             </th>
+            <th class="title-table table-item th-item">Организация
+            </th>
             <th class="title-table table-item th-item"> Статус
             </th>
         </tr>
@@ -237,6 +242,8 @@
             <th class="title-table table-item th-item"> {{ inc.city|safe }}
             </th>
              <th class="title-table table-item th-item">{{ inc.address|safe }}
+            </th>
+            <th class="title-table table-item th-item">{{ inc.organization|safe }}
             </th>
             <th class="title-table table-item th-item"> {{ inc.status|safe }}
             </th>
@@ -285,6 +292,8 @@
             </th>
              <th class="title-table table-item th-item">Адрес
             </th>
+            <th class="title-table table-item th-item"> Организация
+            </th>
             <th class="title-table table-item th-item"> Статус
             </th>
         </tr>
@@ -304,6 +313,8 @@
             <th class="title-table table-item th-item"> {{ inc.city|safe }}
             </th>
              <th class="title-table table-item th-item">{{ inc.address|safe }}
+            </th>
+            <th class="title-table table-item th-item">{{ inc.organization|safe }}
             </th>
             <th class="title-table table-item th-item"> {{ inc.status|safe }}
             </th>

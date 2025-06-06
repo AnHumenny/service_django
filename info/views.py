@@ -1,4 +1,6 @@
 from django.shortcuts import render
+
+from index.views import mask_surname
 from .logic import csv_actual_month, range_view
 from .models import Info
 from django.http import HttpResponse
@@ -8,10 +10,16 @@ from django.views.generic import (
 )
 
 
+
 class InfoListView(ListView):
     model = Info
-    queryset = Info.objects.all().order_by("-id")
     paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for obj in context['object_list']:
+            obj.name = mask_surname(obj.name)
+        return context
 
 
 class InfoDetailView(DetailView):

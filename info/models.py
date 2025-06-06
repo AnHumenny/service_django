@@ -21,4 +21,4 @@ class Info(models.Model):
         return f"{self.city}, {self.street}, {self.home}, {self.apartment}"
 
     class Meta:
-        verbose_name_plural = "Info_s"
+        verbose_name_plural = "Пользовательская информация"

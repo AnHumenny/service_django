@@ -12,4 +12,4 @@ class Index(
         return self.title
 
     class Meta:
-        verbose_name_plural = "Index_x"
+        verbose_name_plural = "Краткие сводки"

@@ -47,8 +47,11 @@
             </th>
              <th class="title-table table-item th-item">Адрес
             </th>
+            <th class="title-table table-item th-item"> Организация
+            </th>
             <th class="title-table table-item th-item"> Статус
             </th>
+
         </tr>
 
         {% for inc in accident_list %}
@@ -68,11 +71,13 @@
             </th>
             <th class="title-table table-item th-item"> {{ inc.datetime_close|date:'Y-m-d H:i' }}
             </th>
-            <th class="title-table table-item th-item"> {{ inc.problem|safe }}
+            <th class="title-table table-item th-item"> {{ inc.problem|truncatechars:200|safe }}
             </th>
             <th class="title-table table-item th-item"> {{ inc.city|safe }}
             </th>
              <th class="title-table table-item th-item">{{ inc.address|safe }}
+            </th>
+            <th class="title-table table-item th-item">{{ inc.organization|safe }}
             </th>
 
             <th class="title-table table-item th-item">

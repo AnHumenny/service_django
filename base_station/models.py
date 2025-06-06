@@ -11,7 +11,7 @@ class BaseStation(models.Model):
 
 
     def __str__(self):  #
-        return self.city
+        return f'БС {self.number}, регион - {self.city}, {self.address}'
 
     class Meta:
-        verbose_name_plural = "BaseStations"
+        verbose_name_plural = "Базовые станции"
