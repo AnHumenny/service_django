@@ -61,6 +61,8 @@
             </th>
             <th class="title-table table-item th-item" width="50"> Скоба
             </th>
+            <th class="title-table table-item th-item" width="50"> Организация
+            </th>
         </tr>
         {% for mat in material %}
         <tr class="table-string" >
@@ -89,6 +91,8 @@
             <th class="title-table table-item th-item" width="50"> {{ mat.corrugation|safe }}
             </th>
             <th class="title-table table-item th-item" width="50"> {{ mat.bracket|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="50"> {{ mat.organization.name|safe }}
             </th>
         </tr>
         {% endfor %}
@@ -134,6 +138,8 @@
             </th>
             <th class="title-table table-item th-item" width="50"> Количество оборудования
             </th>
+            <th class="title-table table-item th-item" width="50"> Организация
+            </th>
         </tr>
         {% for fttx in expansionfttx %}
         <tr class="table-string" >
@@ -163,7 +169,8 @@
             </th>
             <th class="title-table table-item th-item" width="50"> {{ fttx.quantity_of_switch|safe }}
             </th>
-
+            <th class="title-table table-item th-item" width="50"> {{ fttx.organization.name|safe }}
+            </th>
         </tr>
         {% endfor %}
     </table>
@@ -202,6 +209,8 @@
             </th>
             <th class="title-table table-item th-item" width="50"> Количество точек
             </th>
+            <th class="title-table table-item th-item" width="50"> Организация
+            </th>
         </tr>
         {% for wttx in expansionwttx %}
         <tr class="table-string" >
@@ -224,6 +233,8 @@
             <th class="title-table table-item th-item" width="50"> {{ wttx.type_of_wifi|safe }}
             </th>
             <th class="title-table table-item th-item" width="50"> {{ wttx.quantity_of_wifi|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="50"> {{ wttx.organization.name|safe }}
             </th>
         </tr>
         {% endfor %}
@@ -255,6 +266,8 @@
             </th>
             <th class="title-table table-item th-item" width="200"> Тип оборудования
             </th>
+            <th class="title-table table-item th-item" width="50"> Организация
+            </th>
 
         </tr>
         {% for row in equipment %}
@@ -262,7 +275,7 @@
             <th class="title-table table-item th-item">
 
                  <a class="nav-link" href="{% url 'change-detail' row.id %}">
-                {{ row.id|safe }}
+                  &#187;  {{ row.id|safe }}
                 </a>
             </th>
             <th class="title-table table-item th-item" width="100"> {{ row.date|safe }}
@@ -276,6 +289,8 @@
             <th class="title-table table-item th-item" width="100"> {{ row.entrance|safe }}
             </th>
             <th class="title-table table-item th-item" width="200"> {{ row.type_of_equipment|safe }}
+            </th>
+            <th class="title-table table-item th-item" width="50"> {{ row.organization.name|safe }}
             </th>
         </tr>
         {% endfor %}

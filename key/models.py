@@ -13,7 +13,7 @@ class Key(models.Model):
 
 
     def __str__(self):
-        return self.city
+        return f"{self.city}, {self.street}, {self.home}"
 
     class Meta:
-        verbose_name_plural = "Key_s"
+        verbose_name_plural = "Таблица ключей по оборудованию"

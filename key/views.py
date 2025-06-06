@@ -7,5 +7,5 @@ from django.views.generic import (
 
 class KeyListView(ListView):
     model = Key
-    ind = Key.objects.order_by("id").values("city")
+    key = Key.objects.order_by("id").values("city")
     paginate_by = 40

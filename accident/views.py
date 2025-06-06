@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+
+from index.views import mask_surname
 from .logic import current_csv, previos_csv
 from .models import Accident
 from django.views.generic import (
@@ -39,6 +41,11 @@ class AccidentCheckView(ListView):
 class AccidentDetailView(DetailView):
     """Инциденты детальный по id"""
     model = Accident
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.name = mask_surname(obj.name)
+        return obj
 
 
 def download_actual_accident(request):

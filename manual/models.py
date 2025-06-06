@@ -14,4 +14,4 @@ class Manual(
         return self.model
 
     class Meta:
-        verbose_name_plural = "Manuals"
+        verbose_name_plural = "Мануалы"

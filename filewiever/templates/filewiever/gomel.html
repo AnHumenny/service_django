@@ -8,9 +8,9 @@
             </th>
             <th class="title-table table-item th-item" valign="top">
                 <ul class="nav nav-tabs" id="equipmentTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="dlink-tab" data-bs-toggle="tab" data-bs-target="#dlink" type="button" role="tab" aria-controls="dlink" aria-selected="true">D-link</button>
-                    </li>
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link active" id="dlink-tab" data-bs-toggle="tab" data-bs-target="#dlink" type="button" role="tab" aria-controls="dlink" aria-selected="true">D-link</button>-->
+<!--                    </li>-->
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="ubiquity-tab" data-bs-toggle="tab" data-bs-target="#ubiquity" type="button" role="tab" aria-controls="ubiquity" aria-selected="false">Ubiquity</button>
                     </li>
@@ -26,19 +26,19 @@
                 </ul>
 
                 <div class="tab-content" id="equipmentTabContent">
-                    <div class="tab-pane fade show active" id="dlink" role="tabpanel" aria-labelledby="dlink-tab">
-                        <table class="main-table table-item" width="100%">
-                           <tr class="table-string">
-                                <th class="title-table table-item th-item">
-                                    <br>
-                                    {% for row in context_dlink.0 %}
-                                        <br>
-                                        <a href="{% url 'file_download_dlink' file=row %}">{{ row }}</a>
-                                    {% endfor %}
-                                </th>
-                            </tr>
-                        </table>
-                    </div>
+<!--                    <div class="tab-pane fade show active" id="dlink" role="tabpanel" aria-labelledby="dlink-tab">-->
+<!--                        <table class="main-table table-item" width="100%">-->
+<!--                           <tr class="table-string">-->
+<!--                                <th class="title-table table-item th-item">-->
+<!--                                    <br>-->
+<!--                                    {% for row in context_dlink.0 %}-->
+<!--                                        <br>-->
+<!--                                        <a href="{% url 'file_download_dlink' file=row %}">{{ row }}</a>-->
+<!--                                    {% endfor %}-->
+<!--                                </th>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </div>-->
 
                     <div class="tab-pane fade" id="ubiquity" role="tabpanel" aria-labelledby="ubiquity-tab">
                         <table class="main-table table-item" width="100%">

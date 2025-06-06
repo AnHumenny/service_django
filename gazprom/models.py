@@ -13,7 +13,7 @@ class Gazprom(models.Model):
     geo = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.geo
+        return f"Номер - {self.number}, регион - {self.region}, {self.address}"
 
     class Meta:
-        verbose_name_plural = "Gazproms"
+        verbose_name_plural = "АЗС Газпрома"

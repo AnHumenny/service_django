@@ -32,5 +32,5 @@ urlpatterns = [
     path('filewiever/', include('filewiever.urls')),
     path('material/', include('material.urls')),
     path('tinymce/', include('tinymce.urls')),
-    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
+    path('grappelli/', include('grappelli.urls')),
 ]

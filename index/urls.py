@@ -8,6 +8,10 @@ urlpatterns = [
         views.start_page,
     ),
     path(
+        "index/",
+        views.start_page,
+    ),
+    path(
         "index/<int:pk>",
         views.IndexDetailView.as_view(),
         name="index-detail"

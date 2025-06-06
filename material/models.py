@@ -1,7 +1,6 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from accident.models import Accident
+from django.db.models import ForeignKey
+from subtable.models import SubOrganization
 
 
 class Material(models.Model):
@@ -17,9 +16,11 @@ class Material(models.Model):
     screeds = models.IntegerField(default=0)
     corrugation = models.IntegerField(default=0)
     bracket = models.IntegerField(default=0)
+    organization = ForeignKey(SubOrganization, blank=True,
+                              related_name="material_organization", default=2, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Приход на {self.date}"
+        return f"Приход на {self.date} " #--- {self.organization.name}"
 
     class Meta:
         db_table = "_material"
@@ -40,9 +41,10 @@ class ExpansionFttx(models.Model):
     plint = models.IntegerField()
     type_of_switch = models.CharField(max_length=50, null=True, blank=True)
     quantity_of_switch = models.IntegerField(default=0)
+    organization = ForeignKey(SubOrganization, related_name="fttx_organization", default=2, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.date} -- г. {self.city}, ул. {self.street}, д. {self.home} "
+        return f"{self.date} -- г. {self.city}, ул. {self.street}, д. {self.home} --- {self.organization.name} "
 
     class Meta:
         db_table = "_expansion"
@@ -60,9 +62,10 @@ class ExpansionWTTX(models.Model):
     quantity_of_switch = models.IntegerField(default=0)
     type_of_wifi = models.CharField(max_length=50, null=True, blank=True)
     quantity_of_wifi = models.IntegerField(default=0)
+    organization = ForeignKey(SubOrganization, related_name="wttx_organization", default=2, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.date} - {self.address}"
+        return f"{self.date} - {self.address} --- {self.organization.name}"
 
     class Meta:
         db_table = "_expansion_WTTX"
@@ -82,23 +85,13 @@ class ChangeEquipment(models.Model):
     describe = models.TextField(null=True, blank=True, max_length=2500)
     mac_address = models.CharField(null=True, blank=True, max_length=50)
     serial_number = models.CharField(null=True, blank=True, max_length=50)
-    ORGANIZATION_CHOICES = (
-        ("Выберите организацию", _('------')),
-        ('Организация 1', _('Организация 1')),
-        ('Организация 1', _('Организация 2')),
-        ('Организация 3', _('Организация 3')),
-        ('Организация 4', _('Организация 4')),
-    )
-
-    organization = models.CharField(max_length=50, choices=ORGANIZATION_CHOICES, default='------')
+    organization = ForeignKey(SubOrganization, related_name="equipment_organization", default=2, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.date} - {self.city} - {self.street} - {self.home} - {self.entrance} - {self.type_of_equipment}"
+        return (f"{self.date} - {self.city} - {self.street} - {self.home} - {self.entrance} - {self.type_of_equipment}"
+                f"---{self.organization.name}")
 
     class Meta:
         db_table = "_change_equipment"
         verbose_name = "Замена оборудования"
         verbose_name_plural = "Замена оборудования"
-
-
-
