@@ -33,4 +33,5 @@ urlpatterns = [
     path('material/', include('material.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('grappelli/', include('grappelli.urls')),
+    path("google_calendar/", include("google_calendar.urls")),
 ]
