@@ -1,15 +1,15 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-<table>
-    <tr VALIGN=top>
-        <th class="title-table table-item th-item" width="150">
+<div class="grp-wrapper">
+    <div class="main-table">
+        <div class="table-string" style="display: grid; grid-template-columns: 150px 1fr; align-items: start;">
+            <div class="title-table table-item">
                 {% include 'filewiever/menu.html' %}
-       </th>
-        <th class="title-table table-item th-item" width="80%">
-            добавить топологии
-        </th>
-    </tr>
-</table>
+            </div>
+            <div class="title-table table-item">
+                добавить топологии
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

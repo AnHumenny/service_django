@@ -1,67 +1,56 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-
-     <table class="main-table table-item" width="90%">
-        <tr class="table-string">
-
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'base-gomel-list' %}">  Гомель
-                </a>
-            </th>
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'base-minsk-list' %}">  Минск
-                </a>
-            </th>
-        </tr>
-        </table>
-
-    <table class="main-table" width="100%">
-        <tr class="table-string">
-            <th class="title-table table-item th-item" width="50"> ID
-            </th>
-            <th class="title-table table-item th-item" width="150"> Номер
-            </th>
-            <th class="title-table table-item th-item" width="150"> Город
-            </th>
-            <th class="title-table table-item th-item" > Адрес
-            </th>
-            <th class="title-table table-item th-item"> Коммент
-            </th>
-        </tr>
-        {% for key in basestation_list %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ key.id|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.number|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.city|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.address|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.comment|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="7">
+<div class="grp-wrapper">
+    <div class="main-table" style="display: grid; grid-template-columns: 80% 20%; align-items: start;">
+        <div class="data-section">
+            <div class="main-table data-table">
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item">ID</div>
+                    <div class="title-table table-item header-item">Номер</div>
+                    <div class="title-table table-item header-item">Город</div>
+                    <div class="title-table table-item header-item">Адрес</div>
+                    <div class="title-table table-item header-item">Коммент</div>
+                </div>
+                {% for key in basestation_list %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ key.id|safe }}</div>
+                    <div class="content-table table-item data-item">{{ key.number|safe }}</div>
+                    <div class="content-table table-item data-item">{{ key.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ key.address|safe }}</div>
+                    <div class="content-table table-item data-item">{{ key.comment|safe }}</div>
+                </div>
+                {% endfor %}
                 <div class="pagination">
-                <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; start &laquo;</a>      |
-                    <a href="?page={{ page_obj.previous_page_number }}">&laquo;previos&laquo;</a>
-                {% endif %}
-                <span class="current">
-                        страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}      |
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">&raquo;next&raquo;</a>      |
-                    <a href="?page={{ page_obj.paginator.num_pages }}">&raquo; end &raquo;</a>
-                {% endif %}
-            </span>
+                    <div class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; В начало</a> |
+                            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                        {% endif %}
+                        <span class="current">
+                            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} |
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Следующая</a> |
+                            <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-        </th>
-        </tr>
-    </table>
-
+        <div class="nav-section">
+            <div class="main-table">
+                <div class="table-string nav-row">
+                    <div class="title-table table-item nav-item">
+                        <a class="nav-link" href="{% url 'base-gomel-list' %}">Гомель</a>
+                    </div>
+                </div>
+                <div class="table-string nav-row">
+                    <div class="title-table table-item nav-item">
+                        <a class="nav-link" href="{% url 'base-minsk-list' %}">Минск</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,12 +1,10 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-<table>
-    <tr>
-        <th>
-            {{ uncorrect }}
-        </th>
-    </tr>
-</table>
-
+<div class="grp-wrapper">
+    <div class="main-table data-table">
+        <div class="table-string data-row">
+            <div class="content-table table-item data-item">{{ uncorrect|safe }}</div>
+        </div>
+    </div>
+</div>
 {% endblock %}

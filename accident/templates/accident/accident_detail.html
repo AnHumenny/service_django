@@ -1,105 +1,81 @@
 {% extends "index/base.html" %}
-
-        {% block content %}
-    <table>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="2">
+{% block content %}
+<div class="grp-wrapper">
+    <div class="main-table detail-table">
+        <div class="table-string header-row">
+            <div class="title-base table-item header-item" style="grid-column: span 2;">
                 <strong>Детальная информация по заявке {{ accident.number|safe }}</strong>
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item">
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> ID инцидента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.id|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Номер инцидента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.number|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Категория инцидента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.category|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> СЛА
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.sla|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Дата открытия заявки
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.datetime_open|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Дата закрытия заявки
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.datetime_close|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Описание проблемы
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.problem|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Город
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.city|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Детальный адрес
-            </th>
-            <th class="title-table table-item th-item">{{ accident.address|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > ФИО абонента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.name|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Контактные номер абонента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.phone|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Пользовательский номер абонента
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.subscriber|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Комментарий
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.comment|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Решение проблемы
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.decide|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Статус заявки
-            </th>
-            <th class="title-table table-item th-item"> {{ accident.status|safe }}
-            </th>
-        </tr>
-    </table>
-        {% endblock %}
+            </div>
+        </div>
+
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">ID инцидента</div>
+            <div class="content-table table-item data-item">{{ accident.id|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Номер инцидента</div>
+            <div class="content-table table-item data-item">{{ accident.number|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Категория инцидента</div>
+            <div class="content-table table-item data-item">{{ accident.category|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">СЛА</div>
+            <div class="content-table table-item data-item">{{ accident.sla|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Дата открытия заявки</div>
+            <div class="content-table table-item data-item add_date">{{ accident.datetime_open|date:'Y-m-d H:i' }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Дата закрытия заявки</div>
+            <div class="content-table table-item data-item add_date">{{ accident.datetime_close|date:'Y-m-d H:i' }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Описание проблемы</div>
+            <div class="content-table table-item data-item">{{ accident.problem|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Город</div>
+            <div class="content-table table-item data-item">{{ accident.city|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Детальный адрес</div>
+            <div class="content-table table-item data-item">{{ accident.address|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">ФИО абонента</div>
+            <div class="content-table table-item data-item">{{ accident.name|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Контактный номер абонента</div>
+            <div class="content-table table-item data-item">{{ accident.phone|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Пользовательский номер абонента</div>
+            <div class="content-table table-item data-item">{{ accident.subscriber|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Комментарий</div>
+            <div class="content-table table-item data-item">{{ accident.comment|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Решение проблемы</div>
+            <div class="content-table table-item data-item">{{ accident.decide|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Статус заявки</div>
+            <div class="content-table table-item data-item">
+                {% if accident.status == "open" %}
+                <p class="open">{{ accident.status|safe }}</p>
+                {% elif accident.status == "check" %}
+                <p class="check">{{ accident.status|safe }}</p>
+                {% else %}
+                <p>{{ accident.status|safe }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
