@@ -1,32 +1,37 @@
 {% extends "index/base.html" %}
-
-        {% block content %}
+{% block content %}
+<div class="grp-wrapper">
+    <div class="main-table data-table">
+        <div class="table-string header-row">
+            <div class="title-table table-item header-item">Реестр</div>
+            <div class="title-table table-item header-item">ФИО</div>
+            <div class="title-table table-item header-item">Дата создания</div>
+            <div class="title-table table-item header-item">Город</div>
+            <div class="title-table table-item header-item">Улица</div>
+            <div class="title-table table-item header-item">Дом</div>
+            <div class="title-table table-item header-item">Квартира</div>
+            <div class="title-table table-item header-item">Имя</div>
+            <div class="title-table table-item header-item">Кабель 1</div>
+            <div class="title-table table-item header-item">Кабель 2</div>
+            <div class="title-table table-item header-item">Кабель 3</div>
+            <div class="title-table table-item header-item">Коннектор</div>
+        </div>
         {% for fttx in info_list %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ fttx.reestr|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.full_name|safe }}
-            <th class="title-table table-item th-item"> {{ fttx.date_created|date:'Y-m-d' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.city|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.street|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.home|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.apartment|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.name|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_1|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_2|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_3|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.connector|safe }}
-            </th>
-        </tr>
-
+        <div class="table-string data-row">
+            <div class="content-table table-item data-item">{{ fttx.reestr|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.full_name|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.date_created|date:'Y-m-d' }}</div>
+            <div class="content-table table-item data-item">{{ fttx.city|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.street|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.home|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.apartment|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.name|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.cable_1|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.cable_2|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.cable_3|safe }}</div>
+            <div class="content-table table-item data-item">{{ fttx.connector|safe }}</div>
+        </div>
         {% endfor %}
-        {% endblock %}
+    </div>
+</div>
+{% endblock %}

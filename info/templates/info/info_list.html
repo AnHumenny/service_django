@@ -1,72 +1,68 @@
 {% extends "index/base.html" %}
 {% block content %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <table class="main-table table-item">
-        <tr><th><table width="80%">
-        {% for fttx in info_list %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ fttx.reestr|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.full_name|safe }}
-            <th class="title-table table-item th-item"> {{ fttx.date_created|date:'Y-m-d' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.city|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.street|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.home|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.apartment|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.name|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_1|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_2|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.cable_3|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.connector|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-
-        <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="11">
+<div class="grp-wrapper">
+    <div class="main-table" style="display: grid; grid-template-columns: 80% 20%; align-items: start;">
+        <div class="data-section">
+            <div class="main-table data-table">
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item">Реестр</div>
+                    <div class="title-table table-item header-item">Дата создания</div>
+                    <div class="title-table table-item header-item">Город</div>
+                    <div class="title-table table-item header-item">Улица</div>
+                    <div class="title-table table-item header-item">Дом</div>
+                    <div class="title-table table-item header-item">Квартира</div>
+                    <div class="title-table table-item header-item">ФИО</div>
+                    <div class="title-table table-item header-item">Кабель 1</div>
+                    <div class="title-table table-item header-item">Кабель 2</div>
+                    <div class="title-table table-item header-item">Кабель 3</div>
+                    <div class="title-table table-item header-item">Коннектор</div>
+                </div>
+                {% for fttx in info_list %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ fttx.reestr|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.date_created|date:'Y-m-d' }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.street|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.home|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.apartment|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.name|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.cable_1|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.cable_2|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.cable_3|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.connector|safe }}</div>
+                </div>
+                {% endfor %}
                 <div class="pagination">
-                    <span class="step-links">
+                    <div class="step-links">
                         {% if page_obj.has_previous %}
-                            <a href="?page=1">&laquo;В начало</a>      |
-                            <a href="?page={{ page_obj.previous_page_number }}">предыдущая страница</a>
+                            <a href="?page=1">&laquo; В начало</a> |
+                            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
                         {% endif %}
-                    <span class="current">
-                        страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}      |
-                    </span>
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">следующая страница</a>      |
-                    <a href="?page={{ page_obj.paginator.num_pages }}">в конец &raquo;</a>
-                {% endif %}
-            </span>
+                        <span class="current">
+                            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} |
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a> |
+                            <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-        </th>
-        </tr>
-        </table>
-        </th>
-        <th  valign="top" width="20%">
-            <table align="right">
-            <tr class="table-string">
-            <th class="title-table table-item th-item"  rowspan="500" valign="top">
-            <a class="nav-link" href="{% url 'download_actual_csv' %}" >  Скачать в csv текущий месяц
-                </a>
-            <br>
-                <a class="nav-link" href="{% url 'date_range' %}" >  Перейти к выбору дат
-                </a>
-            <br>
-        </th>
-        </tr>
-    </table>
-</th></tr>
-    </table>
-
+        <div class="nav-section">
+            <div class="main-table">
+                <div class="table-string nav-row">
+                    <div class="title-table table-item nav-item">
+                        <a class="nav-link" href="{% url 'download_actual_csv' %}">Скачать в csv текущий месяц</a>
+                    </div>
+                </div>
+                <div class="table-string nav-row">
+                    <div class="title-table table-item nav-item">
+                        <a class="nav-link" href="{% url 'date_range' %}">Перейти к выбору дат</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

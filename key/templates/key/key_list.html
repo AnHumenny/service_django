@@ -1,61 +1,42 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-    <table class="main-table">
-        <tr class="table-string">
-            <th class="title-table table-item th-item" width="50"> ID
-            </th>
-            <th class="title-table table-item th-item" width="150"> Город
-            </th>
-            <th class="title-table table-item th-item" width="150"> Улица
-            </th>
-            <th class="title-table table-item th-item" width="100"> Дом
-            </th>
-            <th class="title-table table-item th-item"> Количество подьездов
-            </th>
-            <th class="title-table table-item th-item"> Ключ индивидуальный
-            </th>
-            <th class="title-table table-item th-item"> Ключ стандартный
-            </th>
-        </tr>
+<div class="grp-wrapper">
+    <div class="main-table data-table">
+        <div class="table-string header-row">
+            <div class="title-table table-item" style="min-width: 50px;">ID</div>
+            <div class="title-table table-item" style="min-width: 150px;">Город</div>
+            <div class="title-table table-item header-item" style="min-width: 150px;">Улица</div>
+            <div class="title-table table-item header-item" style="min-width: 100px;">Дом</div>
+            <div class="title-table table-item header-item">Количество подъездов</div>
+            <div class="title-table table-item header-item">Ключ индивидуальный</div>
+            <div class="title-table table-item header-item">Ключ стандартный</div>
+        </div>
         {% for key in key_list %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ key.id|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.city|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.street|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.home|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.entrance|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.ind|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ key.stand|safe }}
-            </th>
-        </tr>
+        <div class="table-string data-row">
+            <div class="title-table table-item" style="min-width: 50px;">{{ key.id|safe }}</div>
+            <div class="content-table table-item " style="min-width: 150px;">{{ key.city|safe }}</div>
+            <div class="content-table table-item data-item">{{ key.street|safe }}</div>
+            <div class="content-table table-item data-item">{{ key.home|safe }}</div>
+            <div class="content-table table-item data-item">{{ key.entrance|safe }}</div>
+            <div class="content-table table-item data-item">{{ key.ind|safe }}</div>
+            <div class="content-table table-item data-item">{{ key.stand|safe }}</div>
+        </div>
         {% endfor %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="7">
-                <div class="pagination">
-                <span class="step-links">
+        <div class="pagination">
+            <div class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; start &laquo;</a>      |
-                    <a href="?page={{ page_obj.previous_page_number }}">&laquo;previos&laquo;</a>
+                    <a href="?page=1">&laquo; В начало</a> |
+                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
                 {% endif %}
                 <span class="current">
-                        страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}      |
+                    страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} |
                 </span>
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">&raquo;next&raquo;</a>      |
-                    <a href="?page={{ page_obj.paginator.num_pages }}">&raquo; end &raquo;</a>
+                    <a href="?page={{ page_obj.next_page_number }}">Следующая</a> |
+                    <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
                 {% endif %}
-            </span>
+            </div>
         </div>
-        </th>
-        </tr>
-    </table>
-
-
+    </div>
+</div>
 {% endblock %}

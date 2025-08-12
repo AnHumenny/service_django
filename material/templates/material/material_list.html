@@ -1,9 +1,6 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-
 <div class="container mt-4">
-    <!-- Навигация по вкладкам -->
     <ul class="nav nav-tabs" id="materialTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="materials-tab" data-bs-toggle="tab" data-bs-target="#materials" type="button" role="tab" aria-controls="materials" aria-selected="true">Материалы</button>
@@ -20,285 +17,146 @@
     </ul>
 
     <div class="tab-content" id="materialTabContent">
-        <!-- Вкладка Материалы -->
         <div class="tab-pane fade show active" id="materials" role="tabpanel" aria-labelledby="materials-tab">
-            <table class="main-table table-item" width="90%">
-                <tr class="table-string">
-                    <th class="title-table table-item th-item">
-                        Материалы (остаток на начало года\приход по месяцам), замена оборудования
-                    </th>
-                </tr>
-            </table>
-            <table class="main-table table-item">
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ material.id|safe }}
-            </th>
-        </tr>
-        <tr class="table-string" >
-            <th class="title-table table-item th-item">
-            </th>
-            <th class="title-table table-item th-item" width="100"> Дата
-            </th>
-            <th class="title-table table-item th-item" width="50"> Кабель utp
-            </th>
-            <th class="title-table table-item th-item" width="50"> Коннектор
-            </th>
-            <th class="title-table table-item th-item" width="50"> Кроссбокс
-            </th>
-            <th class="title-table table-item th-item" width="50"> Плинт
-            </th>
-            <th class="title-table table-item th-item" width="50"> ВОЛС
-            </th>
-            <th class="title-table table-item th-item" width="50"> Медиаконвертер
-            </th>
-            <th class="title-table table-item th-item" width="50"> SFP
-            </th>
-            <th class="title-table table-item th-item" width="50"> Изолента
-            </th>
-            <th class="title-table table-item th-item" width="50"> Стяжки
-            </th>
-            <th class="title-table table-item th-item" width="50"> Гофра
-            </th>
-            <th class="title-table table-item th-item" width="50"> Скоба
-            </th>
-            <th class="title-table table-item th-item" width="50"> Организация
-            </th>
-        </tr>
-        {% for mat in material %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ mat.id|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ mat.date|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.cable|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.connector|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.crossbox|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.plint|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.vols|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.mediaconverter|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.sfp|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.electrical_tape|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.screeds|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.corrugation|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.bracket|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ mat.organization.name|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="grp-wrapper">
+                <div class="main-table data-table">
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item" style="grid-column: span 14;">Материалы (остаток на начало года\приход по месяцам), замена оборудования</div>
+                    </div>
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item">ID</div>
+                        <div class="title-table table-item header-item" style="min-width: 100px;">Дата</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Кабель UTP</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Коннектор</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Кроссбокс</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Плинт</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">ВОЛС</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Медиаконвертер</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">SFP</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Организация</div>
+                    </div>
+                    {% for mat in material %}
+                    <div class="table-string data-row">
+                        <div class="content-table table-item data-item">{{ mat.id|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.date|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.cable|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.connector|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.crossbox|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.plint|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.vols|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.mediaconverter|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.sfp|safe }}</div>
+                        <div class="content-table table-item data-item">{{ mat.organization.name|safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="fttx" role="tabpanel" aria-labelledby="fttx-tab">
-            <table class="main-table table-item" width="90%">
-                <tr class="table-string">
-                    <th class="title-table table-item th-item">
-                        Расширение FTTX
-                    </th>
-                </tr>
-            </table>
-        <table class="main-table table-item">
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ expansionfttx.id|safe }}
-            </th>
-        </tr>
-        <tr class="table-string" >
-            <th class="title-table table-item th-item">
-            </th>
-            <th class="title-table table-item th-item" width="100"> Дата
-            </th>
-            <th class="title-table table-item th-item" width="50"> Город
-            </th>
-            <th class="title-table table-item th-item" width="50"> Улица
-            </th>
-            <th class="title-table table-item th-item" width="50"> Дом
-            </th>
-            <th class="title-table table-item th-item" width="50"> Подьезд
-            </th>
-            <th class="title-table table-item th-item" width="50"> Этаж
-            </th>
-            <th class="title-table table-item th-item" width="50"> Кабель
-            </th>
-            <th class="title-table table-item th-item" width="50"> Коннектор
-            </th>
-            <th class="title-table table-item th-item" width="50"> Кросс-бокс
-            </th>
-            <th class="title-table table-item th-item" width="50"> Плинт
-            </th>
-            <th class="title-table table-item th-item" width="50"> Тип оборудования
-            </th>
-            <th class="title-table table-item th-item" width="50"> Количество оборудования
-            </th>
-            <th class="title-table table-item th-item" width="50"> Организация
-            </th>
-        </tr>
-        {% for fttx in expansionfttx %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ fttx.id|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ fttx.date|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.city|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.street|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.home|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.entrance|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.floor|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.cable|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.connector|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.crossbox|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.plint|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.type_of_switch|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.quantity_of_switch|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ fttx.organization.name|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="grp-wrapper">
+                <div class="main-table data-table">
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item" style="grid-column: span 14;">Расширение FTTX</div>
+                    </div>
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item">ID</div>
+                        <div class="title-table table-item header-item" style="min-width: 100px;">Дата</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Город</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Улица</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Дом</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Подъезд</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Этаж</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Тип оборуования</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Количество установленных свитчей</div>
+                        <div class="content-table table-item data-item">Название организации</div>
+                    </div>
+                    {% for fttx in expansionfttx %}
+                    <div class="table-string data-row">
+                        <div class="content-table table-item data-item">{{ fttx.id|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.date|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.city|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.street|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.home|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.entrance|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.floor|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.type_of_switch|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.quantity_of_switch|safe }}</div>
+                        <div class="content-table table-item data-item">{{ fttx.organization.name|safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="wttx" role="tabpanel" aria-labelledby="wttx-tab">
-            <table class="main-table table-item" width="90%">
-                <tr class="table-string">
-                    <th class="title-table table-item th-item">
-                        Монтаж WTTX
-                    </th>
-                </tr>
-            </table>
-            <table class="main-table table-item">
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ expansionwttx.id|safe }}
-            </th>
-        </tr>
-        <tr class="table-string" >
-            <th class="title-table table-item th-item">
-            </th>
-            <th class="title-table table-item th-item" width="100"> Дата
-            </th>
-            <th class="title-table table-item th-item" width="50"> Город
-            </th>
-            <th class="title-table table-item th-item" width="50"> Адрес
-            </th>
-            <th class="title-table table-item th-item" width="50"> Кабель
-            </th>
-            <th class="title-table table-item th-item" width="50"> Коннектор
-            </th>
-            <th class="title-table table-item th-item" width="50"> Тип свитча
-            </th>
-            <th class="title-table table-item th-item" width="50"> Количество свитчей
-            </th>
-            <th class="title-table table-item th-item" width="50"> Тип точки доступа
-            </th>
-            <th class="title-table table-item th-item" width="50"> Количество точек
-            </th>
-            <th class="title-table table-item th-item" width="50"> Организация
-            </th>
-        </tr>
-        {% for wttx in expansionwttx %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ wttx.id|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ wttx.date|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.city|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.address|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.cable|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.connector|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.type_of_switch|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.quantity_of_switch|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.type_of_wifi|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.quantity_of_wifi|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ wttx.organization.name|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="grp-wrapper">
+                <div class="main-table data-table">
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item" style="grid-column: span 11;">Монтаж WTTX</div>
+                    </div>
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item">ID</div>
+                        <div class="title-table table-item header-item" style="min-width: 100px;">Дата</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Город</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Адрес</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Кабель</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Коннектор</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Тип свитча</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Количество свитчей</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Тип точки доступа</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Количество точек</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Организация</div>
+                    </div>
+                    {% for wttx in expansionwttx %}
+                    <div class="table-string data-row">
+                        <div class="content-table table-item data-item">{{ wttx.id|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.date|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.city|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.address|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.cable|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.connector|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.type_of_switch|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.quantity_of_switch|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.type_of_wifi|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.quantity_of_wifi|safe }}</div>
+                        <div class="content-table table-item data-item">{{ wttx.organization.name|safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-
-
         <div class="tab-pane fade" id="equipment" role="tabpanel" aria-labelledby="equipment-tab">
-            <table class="main-table table-item" width="90%">
-                <tr class="table-string">
-                    <th class="title-table table-item th-item">
-                        Замена оборудования
-                    </th>
-                </tr>
-            </table>
-            <table class="main-table table-item">
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item" width="100"> Дата
-            </th>
-            <th class="title-table table-item th-item" width="50"> Город
-            </th>
-            <th class="title-table table-item th-item" width="50"> Улица
-            </th>
-            <th class="title-table table-item th-item" width="50"> Дом
-            </th>
-            <th class="title-table table-item th-item" width="50"> Подьезд
-            </th>
-            <th class="title-table table-item th-item" width="200"> Тип оборудования
-            </th>
-            <th class="title-table table-item th-item" width="50"> Организация
-            </th>
-
-        </tr>
-        {% for row in equipment %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item">
-
-                 <a class="nav-link" href="{% url 'change-detail' row.id %}">
-                  &#187;  {{ row.id|safe }}
-                </a>
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ row.date|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ row.city|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ row.street|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ row.home|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="100"> {{ row.entrance|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="200"> {{ row.type_of_equipment|safe }}
-            </th>
-            <th class="title-table table-item th-item" width="50"> {{ row.organization.name|safe }}
-            </th>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="grp-wrapper">
+                <div class="main-table data-table">
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item" style="grid-column: span 8;">Замена оборудования</div>
+                    </div>
+                    <div class="table-string header-row">
+                        <div class="title-table table-item header-item">ID</div>
+                        <div class="title-table table-item header-item" style="min-width: 100px;">Дата</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Город</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Улица</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Дом</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Подъезд</div>
+                        <div class="title-table table-item header-item" style="min-width: 200px;">Тип оборудования</div>
+                        <div class="title-table table-item header-item" style="min-width: 50px;">Организация</div>
+                    </div>
+                    {% for row in equipment %}
+                    <div class="table-string data-row">
+                        <div class="content-table table-item data-item">
+                            <a class="nav-link" href="{% url 'change-detail' row.id %}">&#187; {{ row.id|safe }}</a>
+                        </div>
+                        <div class="content-table table-item data-item">{{ row.date|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.city|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.street|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.home|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.entrance|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.type_of_equipment|safe }}</div>
+                        <div class="content-table table-item data-item">{{ row.organization.name|safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-
-
     </div>
 </div>
-
 {% endblock %}

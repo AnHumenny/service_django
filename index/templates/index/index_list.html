@@ -1,332 +1,243 @@
 {% extends "index/base.html" %}
 {% block content %}
-<table>
-    <tr VALIGN=top>
-        <th width="40%">
-            <table class="main-table table-item" >
+<div class="grp-wrapper">
+    <div class="main-table" style="display: grid; grid-template-columns: 40% 60%; align-items: start;">
+        <div class="data-section">
+            <div class="main-table data-table">
                 {% for index in page_obj %}
-                <tr class="table-string" VALIGN=top>
-                    <th class="title-table table-item th-item" width="150">{{ index.date_created|date:'Y-m-d H:i' }}</th>
-                    <th class="title-table table-item th-item">
-                        <a class="nav-link" href="{% url 'index-detail' index.id %}">
-                            {{ index.title|safe }}
-                        </a>
-                    </th>
-                </tr>
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item" style="min-width: 150px;">{{ index.date_created|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">
+                        <a class="nav-link" href="{% url 'index-detail' index.id %}">{{ index.title|safe }}</a>
+                    </div>
+                </div>
                 {% endfor %}
-                <tr class="table-string">
-                <th class="title-table table-item th-item" colspan="3">
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if page_obj.has_previous %}
-                                <a href="?page=1">&laquo;В начало</a>      |
-                                <a href="?page={{ page_obj.previous_page_number }}">предыдущая страница</a>
-                            {% endif %}
+                <div class="pagination">
+                    <div class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; В начало</a> |
+                            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
+                        {% endif %}
                         <span class="current">
-                            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}      |
+                            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} |
                         </span>
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">следующая страница</a>      |
-                        <a href="?page={{ page_obj.paginator.num_pages }}">в конец &raquo;</a>
-                    {% endif %}
-                    </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a> |
+                            <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+                        {% endif %}
+                    </div>
                 </div>
-            </th>
-            </tr>
-            <tr class="table-string" VALIGN=top>
-                <th class="title-table table-item th-item" width="150" colspan="3"><br>Статистика на текущий год
-                </th>
-            </tr>
-            <tr>
-            <th valign="top" colspan="3">
-                <div>
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item" style="grid-column: span 2;">Статистика на текущий год</div>
                 </div>
-                <canvas id="myPolarAreaChart"></canvas>
-                    <script>
-                        const ctx = document.getElementById('myPolarAreaChart').getContext('2d');
-                        const myPolarAreaChart = new Chart(ctx, {
-                            type: 'polarArea',
-                            data: {
-                                labels: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
-                                'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
-                                datasets: [{
-                                    label: 'Графика fttx на текущий год',
-                                    data: {{ date|safe }},
-                                    backgroundColor: [
-                                   'rgba(255, 99, 132, 0.6)',
-                                   'rgba(75, 192, 192, 0.6)',
-                                   'rgba(255, 205, 86, 0.6)',
-                                   'rgba(255,255,0, 0.6)',
-                                   'rgba(0,255,0, 0.6)',
-                                   'rgba(148,0,211, 0.6)',
-                                   'rgba(205,133,63, 0.6)',
-                                   'rgba(102,205,170, 0.6)',
-                                   'rgba(95,158,160, 0.6)',
-                                   'rgba(192,192,192, 0.6)',
-                                   'rgba(255,0,255, 0.6)',
-                                   'rgba(255,160,122, 0.6)'
-                               ],
-                                borderColor: [
-                                   'rgba(255, 99, 132, 1)',
-                                   'rgba(75, 192, 192, 1)',
-                                   'rgba(255, 205, 86, 1)',
-                                   'rgba(255,255,0, 1)',
-                                   'rgba(0,255,0, 1)',
-                                   'rgba(148,0,211, 16)',
-                                   'rgba(205,133,63, 1)',
-                                   'rgba(102,205,170, 1)',
-                                   'rgba(95,158,160, 1)',
-                                   'rgba(192,192,192, 1)',
-                                   'rgba(255,0,255, 1)',
-                                   'rgba(255,160,122, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                        responsive: true,
-                        scales: {
-                            r: {
-                            beginAtZero: true
-                        }
+                <div class="chart-section">
+                    <div class="chart-container_main">
+                        <canvas id="myPolarAreaChart"></canvas>
+                    </div>
+                </div>
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item" style="grid-column: span 2;">
+                        Остаток по кабелю utp 5e на {{ current_date|safe }} | {{ total|safe }} метров<br>
+                        Расширение FTTX: {{ res_expansion|safe }} метров<br>
+                        Монтаж точек WTTX {{ res_expansion_wttx|safe }} метров
+                    </div>
+                </div>
+                {% for row in result_cable %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item" style="grid-column: span 2;">
+                        FTTX | город: {{ row.city|safe }} | год: {{ row.month|date:"Y : M"|safe }} | использовано {{ row.total_amount|safe }} метров utp 5e
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="data-section">
+            <div class="main-table data-table">
+                {% for fttx in data_list %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ fttx.id|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.reestr|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.date_created|date:'Y-m-d' }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.street|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.home|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.apartment|safe }}</div>
+                    <div class="content-table table-item data-item">{{ fttx.name|safe }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="main-table data-table">
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item" style="grid-column: span 8;">Открытые инциденты</div>
+                </div>
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item">ID</div>
+                    <div class="title-table table-item header-item">Номер</div>
+                    <div class="title-table table-item header-item">Дата открытия</div>
+                    <div class="title-table table-item header-item">Дата закрытия</div>
+                    <div class="title-table table-item header-item">Город</div>
+                    <div class="title-table table-item header-item">Адрес</div>
+                    <div class="title-table table-item header-item">Организация</div>
+                    <div class="title-table table-item header-item">Статус</div>
+                </div>
+                {% for inc in accident %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ inc.id|safe }}</div>
+                    <div class="content-table table-item data-item">
+                        <a class="nav-link" href="{% url 'accident-detail' inc.id %}">{{ inc.number|safe }}</a>
+                    </div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_open|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_close|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.address|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.organization|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.status|safe }}</div>
+                </div>
+                {% endfor %}
+                <div class="pagination">
+                    <div class="step-links">
+                        {% if accident.has_previous %}
+                            <a href="?pag=1">&laquo;&laquo;&laquo;</a> |
+                            <a href="?pag={{ accident.previous_page_number }}">Предыдущая</a>
+                        {% endif %}
+                        <span class="current">
+                            страница {{ accident.number }} из {{ accident.paginator.num_pages }} |
+                        </span>
+                        {% if accident.has_next %}
+                            <a href="?pag={{ accident.next_page_number }}">Следующая</a> |
+                            <a href="?pag={{ accident.paginator.num_pages }}">&raquo;&raquo;&raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="main-table data-table">
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item" style="grid-column: span 8;">Инциденты в статусе проверки</div>
+                </div>
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item">ID</div>
+                    <div class="title-table table-item header-item">Номер</div>
+                    <div class="title-table table-item header-item">Дата открытия</div>
+                    <div class="title-table table-item header-item">Дата закрытия</div>
+                    <div class="title-table table-item header-item">Город</div>
+                    <div class="title-table table-item header-item">Адрес</div>
+                    <div class="title-table table-item header-item">Организация</div>
+                    <div class="title-table table-item header-item">Статус</div>
+                </div>
+                {% for inc in check %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ inc.id|safe }}</div>
+                    <div class="content-table table-item data-item">
+                        <a class="nav-link" href="{% url 'accident-detail' inc.id %}">{{ inc.number|safe }}</a>
+                    </div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_open|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_close|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.address|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.organization|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.status|safe }}</div>
+                </div>
+                {% endfor %}
+                <div class="pagination">
+                    <div class="step-links">
+                        {% if check.has_previous %}
+                            <a href="?pag=1">&laquo;&laquo;&laquo;</a> |
+                            <a href="?pag={{ check.previous_page_number }}">Предыдущая</a>
+                        {% endif %}
+                        <span class="current">
+                            страница {{ check.number }} из {{ check.paginator.num_pages }} |
+                        </span>
+                        {% if check.has_next %}
+                            <a href="?pag={{ check.next_page_number }}">Следующая</a> |
+                            <a href="?pag={{ check.paginator.num_pages }}">&raquo;&raquo;&raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="main-table data-table">
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item" style="grid-column: span 8;">Последние закрытые инциденты</div>
+                </div>
+                <div class="table-string header-row">
+                    <div class="title-table table-item header-item">ID</div>
+                    <div class="title-table table-item header-item">Номер</div>
+                    <div class="title-table table-item header-item">Дата открытия</div>
+                    <div class="title-table table-item header-item">Дата закрытия</div>
+                    <div class="title-table table-item header-item">Город</div>
+                    <div class="title-table table-item header-item">Адрес</div>
+                    <div class="title-table table-item header-item">Организация</div>
+                    <div class="title-table table-item header-item">Статус</div>
+                </div>
+                {% for inc in close %}
+                <div class="table-string data-row">
+                    <div class="content-table table-item data-item">{{ inc.id|safe }}</div>
+                    <div class="content-table table-item data-item">
+                        <a class="nav-link" href="{% url 'accident-detail' inc.id %}">{{ inc.number|safe }}</a>
+                    </div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_open|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.datetime_close|date:'Y-m-d H:i' }}</div>
+                    <div class="content-table table-item data-item">{{ inc.city|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.address|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.organization|safe }}</div>
+                    <div class="content-table table-item data-item">{{ inc.status|safe }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('myPolarAreaChart').getContext('2d');
+        const myPolarAreaChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
+                         'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
+                datasets: [{
+                    label: 'Графика fttx на текущий год',
+                    data: {{ date|safe }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 205, 86, 0.6)',
+                        'rgba(255,255,0, 0.6)',
+                        'rgba(0,255,0, 0.6)',
+                        'rgba(148,0,211, 0.6)',
+                        'rgba(205,133,63, 0.6)',
+                        'rgba(102,205,170, 0.6)',
+                        'rgba(95,158,160, 0.6)',
+                        'rgba(192,192,192, 0.6)',
+                        'rgba(255,0,255, 0.6)',
+                        'rgba(255,160,122, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(255,255,0, 1)',
+                        'rgba(0,255,0, 1)',
+                        'rgba(148,0,211, 1)',
+                        'rgba(205,133,63, 1)',
+                        'rgba(102,205,170, 1)',
+                        'rgba(95,158,160, 1)',
+                        'rgba(192,192,192, 1)',
+                        'rgba(255,0,255, 1)',
+                        'rgba(255,160,122, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true
                     }
                 }
-            });
-        </script>
-        </th></tr>
-            <tr class="table-string" VALIGN=top>
-            <th class="title-table table-item th-item" width="150" colspan="7">
-                Остаток по кабелю utp 5e на {{ current_date|safe }} | {{ total|safe }}  метров <br><br>
-                Расширение FTTX: {{ res_expansion|safe }} метров<br>
-                Монтаж точек WTTX {{ res_expansion_wttx|safe }} метров<br><br>
-            </th>
-        </tr>
-        <tr class="table-string" VALIGN=top>
-            {% for row in result_cable %}
-            <th class="title-table table-item th-item" width="150" colspan="7">
-                FTTX | город : {{ row.city|safe }} | год: {{ row.month|date:"Y : M"|safe }} |
-                использовано {{ row.total_amount|safe }} метров utp 5e</th>
-        </tr>
-        {% endfor %}
-    </table>
-    </th><th width="60%">
-    <table>
-        {% for fttx in data_list %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ fttx.id|safe }}
-            </th>
-            <th class="title-table table-item th-item">  {{ fttx.reestr|safe }}
-            <th class="title-table table-item th-item"> {{ fttx.date_created|date:'Y-m-d' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.city|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.street|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.home|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.apartment|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.name|safe }}
-            </th>
-        </tr>
-
-        {% endfor %}
-
-
-        <tr>
-        <tr class="table-string" VALIGN=top>
-            <th class="title-table table-item th-item" width="150"  colspan="7"><br>Открытые инциденты
-            </th>
-        </tr>
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item">
-                    Номер
-            </th>
-            <th class="title-table table-item th-item"> Дата открытия
-            </th>
-            <th class="title-table table-item th-item"> Дата закрытия
-            </th>
-            <th class="title-table table-item th-item"> Город
-            </th>
-             <th class="title-table table-item th-item">Адрес
-            </th>
-            <th class="title-table table-item th-item">Организация
-            </th>
-            <th class="title-table table-item th-item"> Статус
-            </th>
-        </tr>
-        {% for inc in accident %}
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> {{ inc.id|safe }}
-            </th>
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'accident-detail' inc.id %}">
-                    {{ inc.number|safe }}
-                </a>
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.datetime_open|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.datetime_close|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.city|safe }}
-            </th>
-             <th class="title-table table-item th-item">{{ inc.address|safe }}
-            </th>
-            <th class="title-table table-item th-item">{{ inc.organization|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.status|safe }}
-            </th>
-        </tr>
-
-        {% endfor %}
-
-         <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="7">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if accident.has_previous %}
-                            <a href="?pag=1">&laquo;&laquo;&laquo; </a> |
-                            <a href="?pag={{ accident.previous_page_number }}">previous</a>
-                        {% endif %}
-                    <span class="current">
-                        страница {{ accident.number }} из {{ accident.paginator.num_pages }} |
-                    </span>
-                    {% if accident.has_next %}
-                        <a href="?pag={{ accident.next_page_number }}">next</a> |
-                        <a href="?pag={{ accident.paginator.num_pages }}"> &raquo;&raquo;&raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-            </th>
-        </tr>
-        <tr class="table-string" VALIGN=top>
-            <th class="title-table table-item th-item" width="150" colspan="7"><br>Инциденты в статусе проверки
-            </th>
-        </tr>
-
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item">
-                    Номер
-            </th>
-            <th class="title-table table-item th-item"> Дата открытия
-            </th>
-            <th class="title-table table-item th-item"> Дата закрытия
-            </th>
-            <th class="title-table table-item th-item"> Город
-            </th>
-             <th class="title-table table-item th-item">Адрес
-            </th>
-            <th class="title-table table-item th-item">Организация
-            </th>
-            <th class="title-table table-item th-item"> Статус
-            </th>
-        </tr>
-        {% for inc in check %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ inc.id|safe }}
-            </th>
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'accident-detail' inc.id %}">
-                    {{ inc.number|safe }}
-                </a>
-            </th>
-
-            <th class="title-table table-item th-item"> {{ inc.datetime_open|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.datetime_close|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.city|safe }}
-            </th>
-             <th class="title-table table-item th-item">{{ inc.address|safe }}
-            </th>
-            <th class="title-table table-item th-item">{{ inc.organization|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.status|safe }}
-            </th>
-        </tr>
-
-        {% endfor %}
-
-         <tr class="table-string">
-            <th class="title-table table-item th-item" colspan="11">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if check.has_previous %}
-                            <a href="?pag=1">&laquo;&laquo;&laquo; </a> |
-                            <a href="?pag={{ check.previous_page_number }}">previous</a>
-                        {% endif %}
-                    <span class="current">
-                        страница {{ check.number }} из {{ check.paginator.num_pages }} |
-                    </span>
-                    {% if check.has_next %}
-                        <a href="?pag={{ check.next_page_number }}">next</a> |
-                        <a href="?pag={{ check.paginator.num_pages }}"> &raquo;&raquo;&raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-            </th>
-        </tr>
-
-        <tr class="table-string" VALIGN=top>
-            <th class="title-table table-item th-item" width="150" colspan="7"><br>Последние закрытые инциденты
-            </th>
-        </tr>
-
-
-
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item">
-                    Номер
-            </th>
-            <th class="title-table table-item th-item"> Дата открытия
-            </th>
-            <th class="title-table table-item th-item"> Дата закрытия
-            </th>
-            <th class="title-table table-item th-item"> Город
-            </th>
-             <th class="title-table table-item th-item">Адрес
-            </th>
-            <th class="title-table table-item th-item"> Организация
-            </th>
-            <th class="title-table table-item th-item"> Статус
-            </th>
-        </tr>
-        {% for inc in close %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ inc.id|safe }}
-            </th>
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'accident-detail' inc.id %}">
-                    {{ inc.number|safe }}
-                </a>
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.datetime_open|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.datetime_close|date:'Y-m-d H:i' }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.city|safe }}
-            </th>
-             <th class="title-table table-item th-item">{{ inc.address|safe }}
-            </th>
-            <th class="title-table table-item th-item">{{ inc.organization|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.status|safe }}
-            </th>
-        </tr>
-
-        {% endfor %}
-
-
-    </table>
-
+            }
+        });
+    });
+</script>
 {% endblock %}
-
-</th>
-</tr>
-</table>

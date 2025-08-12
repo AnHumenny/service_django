@@ -1,54 +1,36 @@
 {% extends "index/base.html" %}
 {% block content %}
-
-
-    <table class="main-table table-item" width="100%">
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item"> Тип оборудования
-            </th>
-            <th class="title-table table-item th-item"> Модель
-            </th>
-        </tr>
-
+<div class="grp-wrapper">
+    <div class="main-table data-table">
+        <div class="table-string header-row">
+            <div class="title-table table-item header-item">ID</div>
+            <div class="title-table table-item header-item">Тип оборудования</div>
+            <div class="title-table table-item header-item">Модель</div>
+        </div>
         {% for inc in manual_list %}
-        <tr class="table-string" >
-            <th class="title-table table-item th-item"> {{ inc.id|safe }}
-            </th>
-            <th class="title-table table-item th-item"> {{ inc.type|safe }}
-            </th>
-            <th class="title-table table-item th-item">
-                <a class="nav-link" href="{% url 'manual-detail-list' inc.id %}">
-                    {{ inc.model|safe }}
-                </a>
-            </th>
-        </tr>
-
+        <div class="table-string data-row">
+            <div class="content-table table-item data-item">{{ inc.id|safe }}</div>
+            <div class="content-table table-item data-item">{{ inc.type|safe }}</div>
+            <div class="content-table table-item data-item">
+                <a class="nav-link" href="{% url 'manual-detail-list' inc.id %}">{{ inc.model|safe }}</a>
+            </div>
+        </div>
         {% endfor %}
-    </table>
-
-    <table >
-        <tr class="table-string">
-            <th class="title-table table-item th-item">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if page_obj.has_previous %}
-                            <a href="?page=1">&laquo;В начало</a>      |
-                            <a href="?page={{ page_obj.previous_page_number }}">предыдущая страница</a>
-                        {% endif %}
-                        <span class="current">
-                            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}      |
-                        </span>
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">следующая страница</a>      |
-                            <a href="?page={{ page_obj.paginator.num_pages }}">в конец &raquo;</a>
-                        {% endif %}
-                    </span>
-                </div>
-            </th>
-        </tr>
-    </table>
-
+        <div class="pagination">
+            <div class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; В начало</a> |
+                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
+                {% endif %}
+                <span class="current">
+                    страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} |
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a> |
+                    <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

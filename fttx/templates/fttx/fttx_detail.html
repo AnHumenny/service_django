@@ -1,58 +1,40 @@
 {% extends "index/base.html" %}
-
-        {% block content %}
-    <table>
-        <tr class="table-string" >
-            <th class="title-table table-item th-item" width="400">
+{% block content %}
+<div class="grp-wrapper">
+    <div class="main-table data-table">
+        <div class="table-string header-row">
+            <div class="title-table table-item header-item" style="grid-column: span 2; max-width: 400px;">
                 <strong>Детальная информация по {{ fttx.city|safe }} {{ fttx.street|safe }} {{ fttx.number|safe }}</strong>
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item">
-            </th>
-
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> ID
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.id|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Город
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.city|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Кластер
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.claster|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item"> Улица
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.street|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Номер дома
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.number|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > Комментарий
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.description|safe }}
-            </th>
-        </tr>
-        <tr class="table-string">
-            <th class="title-table table-item th-item" > IP АСКУЭ
-            </th>
-            <th class="title-table table-item th-item"> {{ fttx.askue|safe }}
-            </th>
-        </tr>
-    </table>
-        {% endblock %}
+            </div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">ID</div>
+            <div class="content-table table-item data-item">{{ fttx.id|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Город</div>
+            <div class="content-table table-item data-item">{{ fttx.city|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Кластер</div>
+            <div class="content-table table-item data-item">{{ fttx.claster|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Улица</div>
+            <div class="content-table table-item data-item">{{ fttx.street|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Номер дома</div>
+            <div class="content-table table-item data-item">{{ fttx.number|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Комментарий</div>
+            <div class="content-table table-item data-item">{{ fttx.description|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">IP АСКУЭ</div>
+            <div class="content-table table-item data-item">{{ fttx.askue|safe }}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
