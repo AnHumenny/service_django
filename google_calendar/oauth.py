@@ -9,8 +9,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-import os
-
 
 CLIENT_ID = settings.GOOGLE_CLIENT_ID
 CLIENT_SECRET = settings.GOOGLE_CLIENT_SECRET
@@ -79,4 +77,4 @@ def google_calendar_callback(request):
         },
     )
 
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/admin/accident/accident/")

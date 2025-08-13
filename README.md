@@ -29,6 +29,11 @@ pip install -r requirements.txt
     DATABASE_HOST='host'
     DATABASE_PORT='port'
     ALLOWED_HOSTS='список ip-адресов'
+    TINYMCE_URL='url'
+    GOOGLE_CLIENT_ID="client id"
+    GOOGLE_CLIENT_SECRET="client secret"
+    GOOGLE_OAUTH_TOKEN_URL="https://oauth2.googleapis.com/token"
+    GOOGLE_REDIRECT_URI="url redirect callback"
 
 ##Примените миграции:
 python manage.py migrate

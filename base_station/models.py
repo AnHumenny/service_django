@@ -5,9 +5,9 @@ from django.utils import timezone
 
 class BaseStation(models.Model):
     number = models.IntegerField()
-    city = models.CharField(max_length=20)
+    city = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    comment = models.CharField(max_length=255)
+    comment = models.TextField(max_length=2500)
 
 
     def __str__(self):  #
