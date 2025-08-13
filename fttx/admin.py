@@ -1,16 +1,71 @@
 from django.contrib import admin
+from accident.models import Area
 from .models import Fttx
+from django import forms
+from django.contrib.auth import get_user_model
+import logging
+
+logger = logging.getLogger(__name__)
+
+User = get_user_model()
+
+class FttxAdminForm(forms.ModelForm):
+    """Custom form for Key model in admin interface."""
+    city = forms.ModelChoiceField(
+        queryset=Area.objects.all(),
+        empty_label="Выберите город",
+        required=True,
+    )
+
+    class Meta:
+        model = Fttx
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'city' in self.fields:
+            if self.instance and self.instance.city:
+                try:
+                    area_instance = Area.objects.get(city=self.instance.city)
+                    self.fields['city'].initial = area_instance.pk
+                except Area.DoesNotExist:
+                    self.fields['city'].initial = None
+        else:
+            logger.error("[ERROR] Field 'city' not found in self.fields during __init__")
+
+    def clean_city(self):
+        area = self.cleaned_data['city']
+        return area.city if area else ""
+
 
 @admin.register(Fttx)
-class InfoFttx(admin.ModelAdmin):
+class FttxAdmin(admin.ModelAdmin):
+    """Admin configuration for Key model."""
+    form = FttxAdminForm
     list_filter = ['city', 'street']
     search_fields = ['street', 'claster']
-    list_per_page = 20
+    list_per_page = 30
 
     def get_fields(self, request, obj=None):
-        return ['city', 'claster', 'street', 'number', 'description', 'askue']
+        """Return editable fields based on user permissions."""
+        if request.user.is_superuser:
+            return [field.name for field in self.model._meta.fields if field.name != 'id']
+        return []
 
     def get_readonly_fields(self, request, obj=None):
-        if obj and not request.user.is_superuser:
-            return ['city', 'claster', 'street', 'number', 'description', 'askue']
+        """Return fields that are read-only for non-superusers."""
+        if not request.user.is_superuser:
+            return [field.name for field in self.model._meta.fields if field.name != 'id']
         return []
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        return form
+
+    def has_delete_permission(self, request, obj=None):
+        """Disable delete for non-superusers"""
+        return request.user.is_superuser
+
+    def has_add_permission(self, request):
+        """Disable add for non-superusers"""
+        return request.user.is_superuser

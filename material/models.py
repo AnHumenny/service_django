@@ -1,10 +1,13 @@
 from django.db import models
 from django.db.models import ForeignKey
+
+from accident.models import Area
 from subtable.models import SubOrganization
 
 
 class Material(models.Model):
     date = models.DateField(verbose_name="Дата")
+    city = models.ForeignKey(Area, related_name="сity", default=1, on_delete=models.CASCADE)
     cable = models.IntegerField(default=0)
     connector = models.IntegerField(default=0)
     crossbox = models.IntegerField(default=0)
@@ -17,7 +20,7 @@ class Material(models.Model):
     corrugation = models.IntegerField(default=0)
     bracket = models.IntegerField(default=0)
     organization = ForeignKey(SubOrganization, blank=True,
-                              related_name="material_organization", default=2, on_delete=models.CASCADE)
+                              related_name="city_organization", default=2, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Приход на {self.date} " #--- {self.organization.name}"

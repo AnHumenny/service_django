@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'analutics.apps.AnaluticsConfig',
     'subtable.apps.SubtableConfig',
     'material.apps.MaterialConfig',
+    'user_setting',
     'tinymce',
     'api',
     'rest_framework',
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -76,7 +78,7 @@ ROOT_URLCONF = 'base.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,31 +127,38 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# # CACHES dictionary which contains caching configurations.
-# CACHES = {
-#     # a cache alias or name. In this case, we use "default" as the alias.
-#     "default": {
-#         # Here, we're using the in-memory cache backend.
-#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-#
-#         # LOCATION parameter gives a unique name or identifier to this cache instance.
-#         "LOCATION": "unique-snowflake",
-#     }
-# }
-# CACHES dictionary, which contains caching configurations.
-# CACHES = {
-#     # we use "default" as the alias.
-#     "default": {
-#         # Here, we're using the database-backed cache backend.
-#         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-#
-#         # Provide a LOCATION parameter to specify the database table name where cached data will be stored.
-#         "LOCATION": "my_cache_table",
-#     }
-# }
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # оставляет работу стандартных логгеров
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/django.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 LANGUAGE_CODE = 'ru-ru'
 
