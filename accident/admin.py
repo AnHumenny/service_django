@@ -1,8 +1,12 @@
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.http import HttpResponseRedirect
+from django.utils.html import strip_tags
+
 from google_calendar.google_calendar import create_google_calendar_event
 from .models import Accident, AccidentStatus, Area
 from django import forms
 from django.contrib.auth import get_user_model
+from accident.tasks import send_accident_email
 
 User = get_user_model()
 
@@ -13,6 +17,7 @@ class AccidentAdminForm(forms.ModelForm):
         queryset=Area.objects.all(),
         empty_label="Выберите город",
         required=True,
+        to_field_name="city",
     )
 
     class Meta:
@@ -23,14 +28,12 @@ class AccidentAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.city:
             try:
-                area_instance = Area.objects.get(city=self.instance.city)
-                self.fields['city'].initial = area_instance.pk
+                self.fields['city'].initial = Area.objects.get(city=self.instance.city)
             except Area.DoesNotExist:
                 pass
 
     def clean_city(self):
-        area = self.cleaned_data['city']
-        return area.city
+        return self.cleaned_data['city'].city
 
 
 @admin.register(Accident)
@@ -75,6 +78,44 @@ class AccidentAdmin(admin.ModelAdmin):
                 phone=obj.phone,
                 description=obj.comment or ""
             )
+
+        self.send_response_email(request, [obj])
+
+    def send_response_email(self, request, queryset):
+        for accident in queryset:
+            recipient_email = getattr(accident.organization, 'email', None)
+            if not recipient_email:
+                self.message_user(request, f"No email found for request {accident.id}", level=messages.ERROR)
+                continue
+
+            email_message = (
+                f"Номер: {accident.number}\n"
+                f"Время открытия заявки: {accident.datetime_open}\n"
+                f"Категория: {accident.category}\n"
+                f"Срок ликвидации аварии: {accident.sla}\n"
+                f"Проблема: {accident.problem}\n"
+                f"Город: {accident.city}\n"
+                f"Адрес: {accident.address}\n"
+                f"Контактные данные: {accident.name}\n"
+                f"Телефон: {accident.phone}\n"
+                f"Описание проблемы: {strip_tags(accident.problem)}\n"
+            )
+
+            email_data = {
+                'subject': f"Заявка № {accident.number} (ID: {accident.id})",
+                'message': email_message,
+                'recipient': recipient_email,
+            }
+
+            send_accident_email.delay(accident.id, email_data)
+
+            self.message_user(
+                request,
+                f"Email по инциденту  {accident.number} отправлен в группу {accident.organization}",
+                level=messages.SUCCESS
+            )
+
+        return HttpResponseRedirect(request.get_full_path())
 
 
 @admin.register(Area)

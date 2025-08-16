@@ -7,6 +7,8 @@ class SubOrganization(models.Model):
 
     name = CharField(max_length=30, blank=False, null=False, unique=True )
     type_of_work = TextField(max_length=2000, blank=False, null=False)
+    email = models.EmailField(max_length=254, unique=True, null=False, blank=False)
+
 
     class Meta:
         """
