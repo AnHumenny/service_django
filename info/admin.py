@@ -15,6 +15,7 @@ class InfoAdminForm(forms.ModelForm):
         queryset=Area.objects.all(),
         empty_label="Выберите город",
         required=True,
+        to_field_name="city",
     )
 
     class Meta:
@@ -23,15 +24,11 @@ class InfoAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'city' in self.fields:
-            if self.instance and self.instance.city:
-                try:
-                    area_instance = Area.objects.get(city=self.instance.city)
-                    self.fields['city'].initial = area_instance.pk
-                except Area.DoesNotExist:
-                    self.fields['city'].initial = None
-        else:
-            logger.error("[ERROR]Field 'city' not found in InfoAdminForm self.fields during __init__")
+        if self.instance and self.instance.city:
+            try:
+                self.fields['city'].initial = Area.objects.get(city=self.instance.city)
+            except Area.DoesNotExist:
+                pass
 
     def clean_city(self):
         area = self.cleaned_data['city']

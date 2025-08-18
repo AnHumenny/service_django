@@ -34,6 +34,9 @@ pip install -r requirements.txt
     GOOGLE_CLIENT_SECRET="client secret"
     GOOGLE_OAUTH_TOKEN_URL="https://oauth2.googleapis.com/token"
     GOOGLE_REDIRECT_URI="url redirect callback"
+    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+    CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+    CELERY_TIMEZONE = 'Europe/Minsk'
 
 ##Примените миграции:
 python manage.py migrate
@@ -41,6 +44,3 @@ python manage.py migrate
 ##Запуск приложения
 Чтобы запустить приложение, выполните следующую команду:
 python manage.py runserver
-
-
-

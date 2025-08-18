@@ -15,6 +15,7 @@ class BaseStationAdminForm(forms.ModelForm):
         queryset=Area.objects.all(),
         empty_label="Выберите регион",
         required=True,
+        to_field_name="city",
     )
 
     class Meta:
