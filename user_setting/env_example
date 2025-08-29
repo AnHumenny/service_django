@@ -1,0 +1,36 @@
+SECRET_KEY='secret key'
+ENGINE='django.db.backends.postgresql'
+
+DATABASE_NAME='database'
+DATABASE_PORT=5432
+DATABASE_HOST='host'
+DATABASE_PASSWORD="пароль базы данных"
+DATABASE_USER='admin'
+
+ALLOWED_HOSTS=список хостов
+
+
+TINYMCE_URL='https://cdn.tiny.cloud/1/12345/tinymce/5/tinymce.min.js'
+
+
+GOOGLE_CLIENT_ID="клиент google id"
+GOOGLE_CLIENT_SECRET="client secret"
+GOOGLE_OAUTH_TOKEN_URL="https://oauth2.googleapis.com/token"
+GOOGLE_REDIRECT_URI="http://редирект/callback/"
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='емайл'
+EMAIL_HOST_PASSWORD='пароль приложения'
+EMAIL_PORT=порт
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+
+CELERY_BROKER_URL='redis://localhost:6379/0'
+CELERY_RESULT_BACKEND='redis://localhost:6379/0'
+CELERY_TIMEZONE='Регион'
+
+ACCESS_TOKEN_LIFETIME=время жизни токена  в минутах(int)
+REFRESH_TOKEN_LIFETIME=период обновления токена(в днях, int)
+
+
