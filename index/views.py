@@ -78,7 +78,7 @@ def start_page(request):
 
     return render(request, "index/index_list.html", {"page_obj": page_obj,  "date": sum_month,
                                                      "result_cable": result_cable, "data_list": data,
-                                                     "accident": accident, "check": check, "close": close,
+                                                     "incident": accident, "check": check, "close": close,
                                                     "total": total, "current_year" : current_year,
                                                      'current_date': current_date,"res_expansion": result_expansion,
                                                      "res_expansion_wttx": result_expansion_wttx})
@@ -102,22 +102,22 @@ def search(request):
     if search_type == "accident_number":
         accident_name = incident_number(result)
         if accident_name is None:
-            return render(request, 'accident/error.html',
+            return render(request, 'incident/error.html',
                           {'empty': f"По запросу {result} ничего не найдено"})
-        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
+        return render(request, 'incident/accident_list.html', {'accident_list': accident_name})
 
     if search_type == "accident_name":
         accident_name = incident_name(result)
         if accident_name is None:
-            return render(request, 'accident/error.html',
+            return render(request, 'incident/error.html',
                           {'empty': f"По запросу {result} ничего не найдено"})
-        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
+        return render(request, 'incident/accident_list.html', {'accident_list': accident_name})
 
     if search_type == "accident_address":
         accident_addr = incident_addr(result)
         if accident_addr is None:
-            return render(request, 'accident/error.html', {'empty': "По запросу ничего не найдено"})
-        return render(request, 'accident/accident_list.html', {'accident_list': accident_addr})
+            return render(request, 'incident/error.html', {'empty': "По запросу ничего не найдено"})
+        return render(request, 'incident/accident_list.html', {'accident_list': accident_addr})
 
     if search_type == "manual":
         manual_query = man(result)

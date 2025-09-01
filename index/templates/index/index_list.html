@@ -35,6 +35,7 @@
                         <canvas id="myPolarAreaChart"></canvas>
                     </div>
                 </div>
+<!--                Секцию заблокировать до заполнения материалов и организаций-->
                 <div class="table-string data-row">
                     <div class="content-table table-item data-item" style="grid-column: span 2;">
                         Остаток по кабелю utp 5e на {{ current_date|safe }} | {{ total|safe }} метров<br>
@@ -48,6 +49,7 @@
                         FTTX | город: {{ row.city|safe }} | год: {{ row.month|date:"Y : M"|safe }} | использовано {{ row.total_amount|safe }} метров utp 5e
                     </div>
                 </div>
+                <!--        ...        -->
                 {% endfor %}
             </div>
         </div>
