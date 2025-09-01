@@ -116,3 +116,14 @@ def extend_schema_delete_accident_by_number():
         ],
         tags=["Accident"]
     )
+
+
+def extend_schema_create_accident():
+    """Create accident."""
+    return extend_schema(
+        summary="Создать инцидент",
+        description="Создаёт инцидент с заданными параметрами",
+        responses=AccidentGetSerializer,
+        request=AccidentGetSerializer,
+        tags=["Accident"],
+    )
