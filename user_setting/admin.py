@@ -17,9 +17,12 @@ class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline,)
     list_display = ("username", "email", "first_name", "last_name", "get_organization", "is_staff")
 
-    def get_organization(self, obj):
-        return obj.profile.organization if hasattr(obj, "profile") and obj.profile.organization else "-"
-    get_organization.short_description = "Организация"
+    @staticmethod
+    def get_organization(obj):
+        profile = getattr(obj, "user_setting_profile", None)
+        if profile and profile.organization:
+            return profile.organization
+        return "-"
 
 
 admin.site.unregister(User)

@@ -21,22 +21,7 @@ pip install -r requirements.txt
 Настройте базу данных:
 Создайте базу данных в PostgreSQL и обновите настройки в .env вашего проекта:
 
-    SECRET_KEY='key_django'
-    ENGINE='engine'
-    DATABASE_PASSWORD='database_password'
-    DATABASE_NAME='database_name'
-    DATABASE_USER='user'
-    DATABASE_HOST='host'
-    DATABASE_PORT='port'
-    ALLOWED_HOSTS='список ip-адресов'
-    TINYMCE_URL='url'
-    GOOGLE_CLIENT_ID="client id"
-    GOOGLE_CLIENT_SECRET="client secret"
-    GOOGLE_OAUTH_TOKEN_URL="https://oauth2.googleapis.com/token"
-    GOOGLE_REDIRECT_URI="url redirect callback"
-    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-    CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
-    CELERY_TIMEZONE = 'Europe/Minsk'
+    env_example.txt
 
 ##Примените миграции:
 python manage.py migrate

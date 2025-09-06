@@ -77,4 +77,4 @@ def google_calendar_callback(request):
         },
     )
 
-    return HttpResponseRedirect("/admin/incident/incident/")
+    return HttpResponseRedirect("/admin/accident/accident/")
