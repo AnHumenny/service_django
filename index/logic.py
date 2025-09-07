@@ -55,9 +55,20 @@ def total_utp():
 
 
 def data_obj():
-    """краткая сводка по последним абонам fttx"""
-    data_object = (Info.objects.filter(date_created__range=(start_date, end_date)).order_by("-id").
-                values("id", "reestr", "date_created", "city", "street", "home", "apartment", "name", ))
+    """Краткая сводка по последним абонам FTTx"""
+    data_object = (Info.objects.filter(date_created__range=(start_date, end_date))
+                   .order_by("-id")
+                   .values(
+                       "id",
+                       "reestr",
+                       "date_created",
+                       "city",
+                       "street",
+                       "home",
+                       "apartment",
+                       "name",
+                       "organization__name"
+                   ))[:10]
     return data_object
 
 

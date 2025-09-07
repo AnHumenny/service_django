@@ -1,5 +1,3 @@
-from django.core.mail import send_mail
-from decouple import config
 import calendar
 import csv
 import io
@@ -7,31 +5,15 @@ import os
 from datetime import date
 from django.core.mail import EmailMessage
 from django.utils import timezone
-from accident.models import Accident
 from info.models import Info
 from celery import shared_task
 from subtable.models import SubOrganization
 
-accident_report = os.getenv("ACCIDENT_REPORT")
-
-@shared_task
-def send_accident_email(accident_id, email_data):
-    """Send email asynchronously."""
-    try:
-        send_mail(
-            subject=email_data['subject'],
-            message=email_data['message'],
-            from_email=config('EMAIL_HOST_USER'),
-            recipient_list=[email_data['recipient']],
-            fail_silently=False,
-        )
-        return f"Email sent for accident {accident_id}"
-    except Exception as e:
-        return f"Failed to send email for accident {accident_id}: {str(e)}"
+fttx_report = os.getenv("FTTX_REPORT")
 
 
 @shared_task
-def csv_actual_accident_month():
+def csv_actual_month():
     """Сформировать CSV-отчёт по всем данным за текущий месяц и отправить на указанный email"""
     today = date.today()
     last_day = calendar.monthrange(today.year, today.month)[1]
@@ -53,34 +35,30 @@ def csv_actual_accident_month():
     headers = os.getenv("CSV_HEADERS_FTTX", "").split(",")
     writer.writerow(headers)
 
-    query = Accident.objects.filter(date_created__range=(first_day_of_month, last_day_of_month)).order_by("id")
+    query = Info.objects.filter(date_created__range=(first_day_of_month, last_day_of_month)).order_by("id")
     for obj in query.iterator():
         writer.writerow([
             obj.id,
-            obj.number,
-            obj.category,
-            obj.sla,
-            obj.datetime_open.strftime('%Y-%m-%d'),
-            obj.datetime_close.strftime('%Y-%m-%d'),
-            obj.problem,
+            obj.reestr,
+            obj.date_created.strftime('%Y-%m-%d'),
             obj.city,
-            obj.address,
+            obj.street,
+            obj.home,
+            obj.apartment,
             obj.name,
-            obj.phone,
-            obj.subscriber,
-            obj.comment,
-            obj.decide,
-            obj.organization,
-            obj.status,
+            obj.cable_1,
+            obj.cable_2,
+            obj.cable_3,
+            obj.connector,
         ])
 
     csv_content = output.getvalue()
     output.close()
 
     email = EmailMessage(
-        subject="Отчёт по инцидентам за текущий месяц",
+        subject="Отчёт FTTX за текущий месяц",
         body="Во вложении отчёт в формате CSV.",
-        from_email=f"{accident_report}",
+        from_email=f"{fttx_report}",
         to=[os.getenv("EMAIL_HOST_USER")],
     )
     email.attach(f"отчёт_{today}.csv", csv_content, "text/csv")
@@ -90,8 +68,8 @@ def csv_actual_accident_month():
 
 
 @shared_task
-def monthly_task_accident_organization():
-    """Сформировать CSV-отчёт за текущий месяц и отправить каждой организации отдельно"""
+def monthly_task_fttx_organization():
+    """Сформировать CSV-отчёт по текущей организации за текущий месяц и отправить каждой организации отдельно"""
     today = date.today()
     last_day = calendar.monthrange(today.year, today.month)[1]
 
@@ -119,21 +97,17 @@ def monthly_task_accident_organization():
         for obj in query.iterator():
             writer.writerow([
                 obj.id,
-                obj.number,
-                obj.category,
-                obj.sla,
-                obj.datetime_open.strftime('%Y-%m-%d'),
-                obj.datetime_close.strftime('%Y-%m-%d'),
-                obj.problem,
+                obj.reestr,
+                obj.date_created.strftime('%Y-%m-%d'),
                 obj.city,
-                obj.address,
+                obj.street,
+                obj.home,
+                obj.apartment,
                 obj.name,
-                obj.phone,
-                obj.subscriber,
-                obj.comment,
-                obj.decide,
-                obj.organization,
-                obj.status,
+                obj.cable_1,
+                obj.cable_2,
+                obj.cable_3,
+                obj.connector,
             ])
 
         csv_content = output.getvalue()
@@ -142,7 +116,7 @@ def monthly_task_accident_organization():
         email = EmailMessage(
             subject=f"Отчёт FTTX за {now.strftime('%B %Y')} — {org.name}",
             body="Во вложении отчёт в формате CSV.",
-            from_email=f"{accident_report}",
+            from_email=f"{fttx_report}",
             to=[org.email],
         )
         email.attach(f"отчёт_{today}_{org.name}.csv", csv_content, "text/csv")
@@ -152,8 +126,10 @@ def monthly_task_accident_organization():
 
 
 @shared_task
-def csv_daily_accident():
-    """Сформировать CSV-отчёт за текущий день и отправить суперадмину."""
+def csv_daily_fttx():
+    """
+    Сформировать CSV-отчёт за текущий день и отправить суперадмину.
+    """
     superadmin_email = os.getenv("EMAIL_HOST_USER")
     now = timezone.now()
 
@@ -169,40 +145,36 @@ def csv_daily_accident():
     for obj in query.iterator():
         writer.writerow([
             obj.id,
-            obj.number,
-            obj.category,
-            obj.sla,
-            obj.datetime_open.strftime('%Y-%m-%d') if obj.datetime_open else "",
-            obj.datetime_close.strftime('%Y-%m-%d') if obj.datetime_close else "",
-            obj.problem,
+            obj.reestr,
+            obj.date_created.strftime('%Y-%m-%d'),
             obj.city,
-            obj.address,
+            obj.street,
+            obj.home,
+            obj.apartment,
             obj.name,
-            obj.phone,
-            obj.subscriber,
-            obj.comment,
-            obj.decide,
-            obj.organization,
-            obj.status,
+            obj.cable_1,
+            obj.cable_2,
+            obj.cable_3,
+            obj.connector,
         ])
 
     csv_content = output.getvalue()
     output.close()
 
     email = EmailMessage(
-        subject=f"Отчёт FTTX (аварии) за {now.strftime('%d.%m.%Y')}",
+        subject=f"Отчёт FTTX за {now.strftime('%d.%m.%Y')}",
         body="Во вложении отчёт в формате CSV.",
-        from_email=f"{accident_report}",
+        from_email=f"{fttx_report}",
         to=[superadmin_email],
     )
-    email.attach(f"отчёт_аварии_{now.strftime('%Y-%m-%d')}.csv", csv_content, "text/csv")
+    email.attach(f"отчёт_{now.strftime('%Y-%m-%d')}.csv", csv_content, "text/csv")
     email.send()
 
     return f"Отчёт отправлен на {superadmin_email}"
 
 
 @shared_task
-def daily_accident_for_organization():
+def daily_task_fttx_for_organization():
     """
     Сформировать CSV-отчёт за текущий день для каждой организации
     и отправить на email организации.
@@ -228,21 +200,17 @@ def daily_accident_for_organization():
         for obj in query.iterator():
             writer.writerow([
                 obj.id,
-                obj.number,
-                obj.category,
-                obj.sla,
-                obj.datetime_open.strftime('%Y-%m-%d') if obj.datetime_open else "",
-                obj.datetime_close.strftime('%Y-%m-%d') if obj.datetime_close else "",
-                obj.problem,
+                obj.reestr,
+                obj.date_created.strftime('%Y-%m-%d'),
                 obj.city,
-                obj.address,
+                obj.street,
+                obj.home,
+                obj.apartment,
                 obj.name,
-                obj.phone,
-                obj.subscriber,
-                obj.comment,
-                obj.decide,
-                obj.organization,
-                obj.status,
+                obj.cable_1,
+                obj.cable_2,
+                obj.cable_3,
+                obj.connector,
             ])
 
         csv_content = output.getvalue()
@@ -250,13 +218,12 @@ def daily_accident_for_organization():
 
         if org.email:
             email = EmailMessage(
-                subject=f"Отчёт FTTX (аварии) за {now.strftime('%d.%m.%Y')} для {org.name}",
+                subject=f"Отчёт FTTX за {now.strftime('%d.%m.%Y')} для {org.name}",
                 body="Во вложении отчёт в формате CSV.",
-                from_email=f"{accident_report}",
+                from_email=f"{fttx_report}",
                 to=[org.email],
             )
-            email.attach(f"отчёт_аварии_{org.name}_{now.strftime('%Y-%m-%d')}.csv",
-                         csv_content, "text/csv")
+            email.attach(f"отчёт_{org.name}_{now.strftime('%Y-%m-%d')}.csv", csv_content, "text/csv")
             email.send()
 
     return "Отчёты отправлены всем организациям"

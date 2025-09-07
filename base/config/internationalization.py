@@ -2,7 +2,7 @@ import os
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = os.getenv("CELERY_TIMEZONE")
+TIME_ZONE = os.getenv("CELERY_TIMEZONE", "Europe/Moscow")
 
 USE_I18N = True
 

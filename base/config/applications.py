@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'google_calendar',
     'drf_spectacular',
+    "django_celery_beat",
 ]
 
 REST_FRAMEWORK = {

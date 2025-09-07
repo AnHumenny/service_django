@@ -1,9 +1,10 @@
-# Create your models here.
 from django.db import models
 from django.utils import timezone
 
+from subtable.models import SubOrganization
 
 class Info(models.Model):
+    """information"""
     reestr = models.IntegerField()
     date_created = models.DateField(default=timezone.now)
     city = models.CharField(max_length=20)
@@ -15,6 +16,12 @@ class Info(models.Model):
     cable_2 = models.IntegerField()
     cable_3 = models.IntegerField()
     connector = models.IntegerField()
+    organization = models.ForeignKey(
+        SubOrganization,
+        on_delete=models.CASCADE,
+        related_name="infos",
+        default=2,
+    )
 
 
     def __str__(self):
