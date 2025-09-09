@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from index.views import mask_surname
-from .logic import csv_actual_month, range_view
+from .logic import  range_view
 from .models import Info
 from django.http import HttpResponse
 from django.views.generic import (
@@ -10,8 +10,8 @@ from django.views.generic import (
 )
 
 
-
 class InfoListView(ListView):
+    """список абонов"""
     model = Info
     paginate_by = 50
 
@@ -24,11 +24,6 @@ class InfoListView(ListView):
 
 class InfoDetailView(DetailView):
     model = Info
-
-
-def download_csv_actual_month(request):
-    """скачать отчёт fttx текущий месяц в csv"""
-    return csv_actual_month()
 
 
 def date_range_view(request):

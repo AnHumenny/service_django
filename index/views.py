@@ -44,10 +44,9 @@ def start_page(request):
         for name in data_object.values()
     ]
 
-
     paginator = Paginator(masked_data, 10)
     page_number = request.GET.get("pag")
-    data = paginator.get_page(page_number)
+    masked_obj = paginator.get_page(page_number)
 
     result_cable = all_cable()
     total_cable_sum = total_cable()
@@ -77,7 +76,7 @@ def start_page(request):
     close = paginator.get_page(page_number)
 
     return render(request, "index/index_list.html", {"page_obj": page_obj,  "date": sum_month,
-                                                     "result_cable": result_cable, "data_list": data,
+                                                     "result_cable": result_cable, "data_list": masked_obj,
                                                      "incident": accident, "check": check, "close": close,
                                                     "total": total, "current_year" : current_year,
                                                      'current_date': current_date,"res_expansion": result_expansion,

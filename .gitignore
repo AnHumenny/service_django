@@ -3,6 +3,10 @@
 .env
 **/migrations/
 
+# Celery Beat
+celerybeat-schedule
+celerybeat-schedule.*
+
 # Папки виртуального окружения
 venv/
 env/

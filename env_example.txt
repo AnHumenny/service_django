@@ -29,3 +29,9 @@ CELERY_TIMEZONE='timezone'
 
 ACCESS_TOKEN_LIFETIME=время жизни токена(int, minutes)
 REFRESH_TOKEN_LIFETIME=период обновления(int, day)
+
+CSV_HEADERS_FTTX='лист значений'
+CSV_HEADERS_ACCIDENT='лист значений'
+
+CRON_HOUR=22
+CRON_MINUTE=0
