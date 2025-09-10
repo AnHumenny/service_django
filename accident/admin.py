@@ -76,7 +76,7 @@ class AccidentAdmin(admin.ModelAdmin):
                 datetime_close=obj.datetime_close,
                 name=obj.name,
                 phone=obj.phone,
-                description=obj.comment or ""
+                comment=obj.comment or ""
             )
 
         self.send_response_email(request, [obj])

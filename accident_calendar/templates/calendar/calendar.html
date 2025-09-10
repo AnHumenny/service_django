@@ -1,0 +1,159 @@
+{% extends 'base_calendar.html' %}
+{% block content %}
+<div class="w-full h-screen px-4 py-6">
+    <h3 class="text-1xl font-bold mb-4 text-center">Календарь инцидентов</h3>
+     <a href="{% url 'home' %}"
+           class="relative z-0  px-4 py-2 bg-gray-200 text-gray-400 rounded-md shadow hover:bg-gray-300 transition">
+            На главную
+        </a>
+    <a href="{% url 'accident-list' %}"
+           class="relative z-0  px-4 py-2 bg-gray-200 text-gray-400 rounded-md shadow hover:bg-gray-300 transition">
+            Лист инцидентов
+        </a>
+    <a href="{% url 'accident-open-list' %}"
+           class="relative z-0  px-4 py-2 bg-gray-200 text-gray-400 rounded-md shadow hover:bg-gray-300 transition">
+            Открытые инциденты
+        </a>
+    <a href="{% url 'accident-check-list' %}"
+           class="relative z-0  px-4 py-2 bg-gray-200 text-gray-400 rounded-md shadow hover:bg-gray-300 transition">
+            В статусе проверки
+        </a>
+    <a href="{% url 'accident-close-list' %}"
+           class="relative z-0  px-4 py-2 bg-gray-200 text-gray-400 rounded-md shadow hover:bg-gray-300 transition">
+            Закрытые инциденты
+        </a>
+    <a href="{% url 'admin:accident_accident_changelist' %}"
+           class="relative z-0 inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow hover:bg-gray-300 transition mt-4">
+            В панель инцидентов
+    </a>
+    <div id="calendar" class="relative z-1000 w-full h-full bg-gray-200"></div>
+</div>
+
+<div id="bookingModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+    <h3 class="text-lg font-bold mb-4">Информация о инциденте</h3>
+    <p id="slotDetails" class="mb-4 text-sm text-gray-700"></p>
+      <button type="button" id="cancelBooking" class="ml-2 text-gray-600 hover:underline">
+                Отмена
+            </button>
+  </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.substring(0, name.length+1) === (name+'=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+
+    const events = [
+    {% for date, slots in calendar_data.items %}
+        {% for slot in slots %}
+        {
+            id: '{{ slot.id }}',
+            title: '{{ slot.start_time|time:"H:i" }}',
+            start: '{{ slot.date|date:"Y-m-d" }}T{{ slot.start_time|time:"H:i:s" }}',
+            end: '{{ slot.date|date:"Y-m-d" }}T{{ slot.end_time|time:"H:i:s" }}',
+            color: {% if slot.is_booked %}'#34d399'{% else %}'#f87171'{% endif %}, //красный заявка открыта, зелёный закрыта
+
+            extendedProps: {
+                accident_number: '{{ slot.number|default_if_none:"" }}',
+                category: '{{ slot.category|default_if_none:"" }}',
+                sla: '{{ slot.sla|default_if_none:"" }}',
+                city: '{{ slot.city|default_if_none:"" }}',
+                organization: '{{ slot.organization|default_if_none:"" }}'
+            }
+        },
+        {% endfor %}
+    {% endfor %}
+];
+
+const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+        locale: 'ru',
+        height: '100%',
+        expandRows: true,
+        contentHeight: 'auto',
+        aspectRatio: 1.6,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        navLinks: true,
+        events: events,
+        eventDidMount: function(info) {
+
+            const props = info.event.extendedProps;
+            const extraDiv = document.createElement('div');
+            extraDiv.style.fontSize = '0.8em';
+            extraDiv.style.marginTop = '2px';
+            extraDiv.innerHTML = `№: ${props.accident_number || '-'} | Город: ${props.city || '-'}`;
+            info.el.appendChild(extraDiv);
+        },
+    eventClick: function(info) {
+        info.jsEvent.preventDefault();
+        const modal = document.getElementById('bookingModal');
+        modal.classList.remove('hidden');
+
+        const props = info.event.extendedProps;
+
+        document.getElementById('slotDetails').innerHTML = `
+            <strong>Дата и время:</strong> ${info.event.start.toLocaleDateString('ru-RU')} ${info.event.title} <br>
+            <strong>Номер:</strong> ${
+                props.accident_number
+                    ? `<a href="/accident/${props.accident_number}/" class="text-blue-600 hover:underline">${props.accident_number}</a>`
+                    : '-'
+            } <br>
+            <strong>Категория:</strong> ${props.category || '-'} <br>
+            <strong>SLA:</strong> ${props.sla || '-'} <br>
+            <strong>Город:</strong> ${props.city || '-'} <br>
+            <strong>Организация:</strong> ${props.organization || '-'}
+        `;
+        document.getElementById('slotId').value = info.event.id;
+    }
+});
+
+    calendar.render();
+
+    document.getElementById('cancelBooking').addEventListener('click', function() {
+        document.getElementById('bookingModal').classList.add('hidden');
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const slotId = document.getElementById('slotId').value;
+        const formData = new FormData(this);
+
+        fetch(`/book/${slotId}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) window.location.reload();
+            document.getElementById('bookingModal').classList.add('hidden');
+        })
+        .catch(e => {
+            console.error(e);
+            alert('Ошибка бронирования');
+            document.getElementById('bookingModal').classList.add('hidden');
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'google_calendar',
     'drf_spectacular',
     "django_celery_beat",
+    "accident_calendar.apps.AccidentCalendarConfig",
 ]
 
 REST_FRAMEWORK = {

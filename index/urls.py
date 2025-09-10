@@ -5,11 +5,7 @@ from .views import search
 urlpatterns = [
     path(
         "",
-        views.start_page,
-    ),
-    path(
-        "index/",
-        views.start_page,
+        views.start_page, name='home'
     ),
     path(
         "index/<int:pk>",
