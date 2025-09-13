@@ -18,7 +18,7 @@ def create_timeslot_for_accident(sender, instance, created, **kwargs):
         TimeSlot.objects.create(
             date=local_open.date(),
             start_time=instance.datetime_open,
-            end_time=instance.datetime_close if local_close else None,
+            end_time=instance.datetime_close,
             number=instance.id,
             city=instance.city,
             category=instance.category,
