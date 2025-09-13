@@ -389,3 +389,8 @@ input[type="submit"] {
     flex-direction: column;
     gap: 10px;
 }
+
+#calendar {
+            height: 100%;
+            width: 100%;
+        }

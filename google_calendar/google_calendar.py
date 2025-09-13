@@ -41,7 +41,7 @@ def fetch_google_events(request):
 
 
 def create_google_calendar_event(user, number, category, sla, problem, city, address, datetime_open, datetime_close,
-                                 name, phone, description):
+                                 name, phone, comment):
     """Create event in calendar Google."""
     try:
         token_obj = GoogleCalendarToken.objects.get(username=user)
@@ -63,7 +63,8 @@ def create_google_calendar_event(user, number, category, sla, problem, city, add
         f"Адрес: {address}\n"
         f"Имя: {name}\n"
         f"Телефон: {phone}\n"
-        f"Описание: {description}\n"
+        f"Описание: {problem}\n"
+        f"Комментарий: {comment}\n"
     )
 
     body = {

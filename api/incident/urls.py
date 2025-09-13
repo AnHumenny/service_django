@@ -1,9 +1,8 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import (
-    GetAccidentById, AccidentListByStatus, AccidentListByOrganization,
-    AccidentDeleteByNumber, AccidentListByNumber, AccidentPartialUpdateByNumber, AccidentCreateView
-)
+
+from api.incident.views import AccidentListByStatus, AccidentListByOrganization, AccidentCreateView, GetAccidentById, \
+    AccidentListByNumber, AccidentPartialUpdateByNumber, AccidentDeleteByNumber
 
 router = DefaultRouter()
 router.register("status", AccidentListByStatus, basename="accidents-by-status")
