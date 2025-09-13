@@ -41,7 +41,7 @@ class AccidentAdmin(admin.ModelAdmin):
     """Admin configuration for Accident model."""
     form = AccidentAdminForm
     list_filter = ['city']
-    search_fields = ['number', 'city__city', 'name', 'subscriber', 'comment']
+    search_fields = ['number', 'city', 'name', 'subscriber', 'comment']
     list_per_page = 20
     change_list_template = "admin/accident/change_list.html"
 

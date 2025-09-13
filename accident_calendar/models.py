@@ -12,11 +12,18 @@ class TimeSlot(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_booked = models.BooleanField(default=False)
-    number = models.BigIntegerField(null=True, blank=True)
+    number = models.CharField(null=True, blank=True)
     category = models.CharField(null=True, blank=True)
     sla = models.CharField(null=True, blank=True)
     city = models.CharField(null=True, blank=True)
-    organization = models.CharField(null=True, blank=True)
+    organization = models.ForeignKey(
+        SubOrganization,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="organization_timeslots"
+    )
+    status = models.CharField(null=True, blank=True)
     booked_by = models.ForeignKey(SubOrganization, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -36,7 +43,7 @@ class Booking(models.Model):
     slot = models.ForeignKey(
         TimeSlot,
         on_delete=models.CASCADE,
-        related_name='bookings'
+        related_name='bookings',
     )
     user = models.ForeignKey(
         SubOrganization,
@@ -46,4 +53,4 @@ class Booking(models.Model):
 
     def __str__(self):
         return (f"{self.slot.number} -> {self.user.name} -> {self.slot.date}"
-                f" {self.slot.start_time}-{self.slot.end_time} - ")
+                f" {self.slot.start_time}-{self.slot.end_time}")

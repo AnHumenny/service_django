@@ -66,14 +66,21 @@ document.addEventListener('DOMContentLoaded', function() {
             title: '{{ slot.start_time|time:"H:i" }}',
             start: '{{ slot.date|date:"Y-m-d" }}T{{ slot.start_time|time:"H:i:s" }}',
             end: '{{ slot.date|date:"Y-m-d" }}T{{ slot.end_time|time:"H:i:s" }}',
-            color: {% if slot.is_booked %}'#34d399'{% else %}'#f87171'{% endif %}, //красный заявка открыта, зелёный закрыта
+           color: {% if slot.status == "check" %}
+                      '#a0522d'
+                  {% elif slot.is_booked %}
+                      '#34d399'
+                  {% else %}
+                      '#f87171'
+       {% endif %},
 
             extendedProps: {
                 accident_number: '{{ slot.number|default_if_none:"" }}',
                 category: '{{ slot.category|default_if_none:"" }}',
                 sla: '{{ slot.sla|default_if_none:"" }}',
                 city: '{{ slot.city|default_if_none:"" }}',
-                organization: '{{ slot.organization|default_if_none:"" }}'
+                organization: '{{ slot.organization|default_if_none:"" }}',
+                status: '{{ slot.status|default_if_none:"" }}'
             }
         },
         {% endfor %}
@@ -120,6 +127,7 @@ const calendar = new FullCalendar.Calendar(calendarEl, {
             <strong>Категория:</strong> ${props.category || '-'} <br>
             <strong>SLA:</strong> ${props.sla || '-'} <br>
             <strong>Город:</strong> ${props.city || '-'} <br>
+            <strong>Статус:</strong> ${props.status || '-'} <br>
             <strong>Организация:</strong> ${props.organization || '-'}
         `;
         document.getElementById('slotId').value = info.event.id;
