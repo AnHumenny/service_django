@@ -76,15 +76,7 @@ def extend_schema_accident_by_organization():
 def extend_schema_update_accident_by_number():
     return extend_schema(
         summary="Частичное обновление инцидента по number",
-        description="Updates the datetime_close, decide, and status fields of the incident with the specified number",
-        parameters=[
-            OpenApiParameter(
-                name="number",
-                type=str,
-                required=True,
-                description="Номер инцидента для обновления",
-            )
-        ],
+        description="Обновляет datetime_close, decide и status для инцидента с указанным номером",
         request=AccidentUpdateSerializer,
         responses=AccidentUpdateSerializer,
         tags=["Accident"]

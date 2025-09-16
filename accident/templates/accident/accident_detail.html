@@ -7,10 +7,13 @@
                 <strong>Детальная информация по заявке {{ accident.number|safe }}</strong>
             </div>
         </div>
-
         <div class="table-string data-row">
             <div class="title-table table-item header-item">ID инцидента</div>
             <div class="content-table table-item data-item">{{ accident.id|safe }}</div>
+        </div>
+        <div class="table-string data-row">
+            <div class="title-table table-item header-item">Организация</div>
+            <div class="content-table table-item data-item">{{ accident.organization|safe }}</div>
         </div>
         <div class="table-string data-row">
             <div class="title-table table-item header-item">Номер инцидента</div>

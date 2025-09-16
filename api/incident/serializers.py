@@ -19,9 +19,21 @@ class AccidentPostSerializer(serializers.ModelSerializer):
             "subscriber", "comment", "status", "organization"
         )
 
+        def validate_status(self, value):
+            allowed = ["check", "open", "close"]
+            if value not in allowed:
+                raise serializers.ValidationError(f"Status must be one of {allowed}")
+            return value
+
 
 class AccidentUpdateSerializer(serializers.ModelSerializer):
     """Serializer for partially updating an accident (close time, decision, status)."""
     class Meta:
         model = Accident
         fields = ("datetime_close", "decide", "status")
+
+    def validate_status(self, value):
+        allowed = ["check", "open", "close"]
+        if value not in allowed:
+            raise serializers.ValidationError(f"Status must be one of {allowed}")
+        return value
