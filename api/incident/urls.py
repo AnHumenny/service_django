@@ -13,7 +13,7 @@ urlpatterns = [
     path("<int:id>/", GetAccidentById.as_view(), name="incident-detail"),
     path("number/", AccidentListByNumber.as_view({"get": "retrieve"}), name="accident-by-number"),
     path(
-        "partial_update/",
+        "partial_update/<str:number>/",
         AccidentPartialUpdateByNumber.as_view({"patch": "partial_update"}),
         name="accident-partial-update"
     ),
@@ -22,7 +22,6 @@ urlpatterns = [
         AccidentDeleteByNumber.as_view({"delete": "delete"}),
         name="accident-delete-by-number",
     )
-
 ]
 
 urlpatterns += router.urls

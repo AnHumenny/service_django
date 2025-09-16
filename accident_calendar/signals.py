@@ -40,6 +40,18 @@ def update_timeslot_for_accident(sender, instance, created, **kwargs):
 
     qs = TimeSlot.objects.filter(number=instance.id)
 
+    if instance.status == "open":
+        qs.update(
+            start_time=instance.datetime_open,
+            end_time=instance.datetime_close,
+            number=instance.id,
+            city=instance.city,
+            category=instance.category,
+            sla=instance.sla,
+            organization=instance.organization,
+            status=instance.status,
+            is_booked=False,
+        )
 
     if instance.status == "close":
         qs.update(
@@ -53,6 +65,7 @@ def update_timeslot_for_accident(sender, instance, created, **kwargs):
             status=instance.status,
             is_booked=True,
         )
+
     if instance.status == "check":
         qs.update(
             start_time=instance.datetime_open,

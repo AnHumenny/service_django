@@ -150,7 +150,7 @@ class AccidentListByOrganization(mixins.ListModelMixin, viewsets.GenericViewSet)
 
 @extend_schema_update_accident_by_number()
 class AccidentPartialUpdateByNumber(mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    """Partial update of the incident."""
+    """Partial update of the incident by number."""
     serializer_class = AccidentUpdateSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = "number"
@@ -165,32 +165,6 @@ class AccidentPartialUpdateByNumber(mixins.UpdateModelMixin, viewsets.GenericVie
             )
         return Accident.objects.none()
 
-    def partial_update(self, request, *args, **kwargs):
-        status_param = self.request.query_params.get("status")
-        if status_param not in ["open", "check"]:
-            return Response(
-                {"error": "Query parameter 'status' uncorrected"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        number_param = self.request.query_params.get("number")
-
-        if not number_param:
-            return Response(
-                {"error": "Query parameter 'number' not found"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try:
-            instance = self.get_queryset().get(number=number_param)
-        except Accident.DoesNotExist:
-            return Response(
-                {"error": f"Accident with number {number_param} not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @extend_schema_delete_accident_by_number()
