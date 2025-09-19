@@ -1,27 +1,28 @@
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.contrib.auth import urls as auth_urls
 
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("index.urls")),  
-    path('accident/', include('accident.urls')),
-
-    path('info/', include('info.urls')),
-    path('key/', include('key.urls')),
-    path('base_station/', include('base_station.urls')),
-    path('gazprom/', include('gazprom.urls')),
-    path('manual/', include('manual.urls')),
-    path('fttx/', include('fttx.urls')),
-    path('analutics/', include('analutics.urls')),
-    path('filewiever/', include('filewiever.urls')),
-    path('material/', include('material.urls')),
+    path("", include("apps.index.urls")),
+    path('accident/', include('apps.accident.urls')),
+    path('info/', include('apps.info.urls')),
+    path('key/', include('apps.key.urls')),
+    path('base_station/', include('apps.base_station.urls')),
+    path('gazprom/', include('apps.gazprom.urls')),
+    path('manual/', include('apps.manual.urls')),
+    path('fttx/', include('apps.fttx.urls')),
+    path('analutics/', include('apps.analutics.urls')),
+    path('filewiever/', include('apps.filewiever.urls')),
+    path('material/', include('apps.material.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('grappelli/', include('grappelli.urls')),
-    path("google_calendar/", include("google_calendar.urls")),
-    path('accident_calendar/', include('accident_calendar.urls')),
+    path("google_calendar/", include("apps.google_calendar.urls")),
+    path('accident_calendar/', include('apps.accident_calendar.urls')),
+
 
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),

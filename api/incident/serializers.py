@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accident.models import Accident
+from apps.accident.models import Accident
 
 
 class AccidentGetSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status, generics, mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from accident.models import Accident, AccidentStatus
+from apps.accident.models import Accident, AccidentStatus
 from api.incident.serializers import AccidentGetSerializer, AccidentUpdateSerializer
 from api.schema import extend_schema_accident_by_status, extend_schema_accident_by_id, \
     extend_schema_accident_by_organization, extend_schema_accident_by_number, extend_schema_update_accident_by_number, \
