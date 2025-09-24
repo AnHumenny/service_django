@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from api.user.serializers import UsersSerializer
-from user_setting.models import Profile
+from apps.user_setting.models import Profile
 
 
 class UsersList(ListAPIView):
