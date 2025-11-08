@@ -1,13 +1,12 @@
-# Create your models here.
 from django.db import models
-from django.utils import timezone
+from apps.utils import CharFieldValidator
 
 
 class BaseStation(models.Model):
     number = models.IntegerField()
-    city = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    comment = models.TextField(max_length=2500)
+    city = models.CharField(max_length=255, validators=[CharFieldValidator(255)])
+    address = models.CharField(max_length=255, validators=[CharFieldValidator(255)])
+    comment = models.TextField(max_length=2500, blank=True, null=True, validators=[CharFieldValidator(2500)])
 
 
     def __str__(self):  #

@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils import timezone
 from apps.subtable.models import SubOrganization
+
 
 
 class TimeSlot(models.Model):
@@ -8,11 +10,11 @@ class TimeSlot(models.Model):
     Stores date, start/end times, booking status, and related metadata.
     Ensures unique date and start time combinations, ordered by date and start time.
     """
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    date = models.DateField(default=timezone.now)
+    start_time = models.TimeField(null=False, default=False)
+    end_time = models.TimeField(null=False, default=False)
     is_booked = models.BooleanField(default=False)
-    number = models.CharField(null=True, blank=True)
+    number = models.CharField(max_length=10, null=True, blank=True)
     category = models.CharField(null=True, blank=True)
     sla = models.CharField(null=True, blank=True)
     city = models.CharField(null=True, blank=True)
@@ -23,7 +25,7 @@ class TimeSlot(models.Model):
         blank=True,
         related_name="organization_timeslots"
     )
-    status = models.CharField(null=True, blank=True)
+    status = models.CharField(max_length=5, null=True, blank=True)
     booked_by = models.ForeignKey(SubOrganization, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

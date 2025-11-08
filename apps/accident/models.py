@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from tinymce.models import HTMLField
 from apps.subtable.models import SubOrganization
+from apps.utils import CharFieldValidator, validate_phone_number
 
 
 class Area(models.Model):
@@ -36,17 +37,17 @@ class AccidentCategory(models.TextChoices):
 class Accident(models.Model):
     number = models.CharField(max_length=10, unique=True)
     category = models.CharField(max_length=50, choices=AccidentCategory.choices)
-    sla = models.CharField(max_length=20)
+    sla = models.CharField(max_length=20, validators=[CharFieldValidator(20)])
     datetime_open = models.DateTimeField(default=timezone.now)
     datetime_close = models.DateTimeField(default=timezone.now)
-    problem = HTMLField(max_length=2500)
-    city = models.CharField(max_length=255)
-    address = models.CharField(max_length=500)
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=13)
-    subscriber = models.CharField(max_length=13)
-    comment = HTMLField(max_length=2500, null=True, blank=True)
-    decide = HTMLField(max_length=2500, null=True, blank=True)
+    problem = HTMLField(max_length=2500, validators=[CharFieldValidator(2500)])
+    city = models.CharField(max_length=255, validators=[CharFieldValidator(255)])
+    address = models.CharField(max_length=500, validators=[CharFieldValidator(500)])
+    name = models.CharField(max_length=100, validators=[CharFieldValidator(100)])
+    phone = models.CharField(max_length=13, validators=[validate_phone_number])
+    subscriber = models.CharField(max_length=13, blank=True, null=True, validators=[CharFieldValidator(13)])
+    comment = HTMLField(max_length=2500, null=True, blank=True, validators=[CharFieldValidator(2500)])
+    decide = HTMLField(max_length=2500, null=True, blank=True, validators=[CharFieldValidator(2500)])
     organization = models.ForeignKey(SubOrganization, related_name="Organization", default=1, on_delete=models.CASCADE)
     status = models.CharField(max_length=5, choices=AccidentStatus.choices,
                               default=AccidentStatus.OPEN, null=False)

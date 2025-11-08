@@ -1,13 +1,16 @@
 from django.db import models
 from django.db.models import CharField, TextField
 
+from apps.utils import CharFieldValidator
+
 
 class SubOrganization(models.Model):
     """List of organizations"""
 
-    name = CharField(max_length=30, blank=False, null=False, unique=True )
-    type_of_work = TextField(max_length=2000, blank=False, null=False)
-    email = models.EmailField(max_length=254, unique=True, null=False, blank=False)
+    name = CharField(max_length=30, blank=False, null=False, unique=True,
+                             validators=[CharFieldValidator(30)] )
+    type_of_work = TextField(max_length=2000, validators=[CharFieldValidator(2000)])
+    email = models.EmailField(max_length=254, unique=True, validators=[CharFieldValidator(254)])
 
 
     class Meta:
@@ -27,7 +30,7 @@ class SubOrganization(models.Model):
 class SubNameEquipment(models.Model):
     """List of equipments"""
 
-    name_of_equipment = models.CharField(max_length=100, blank=True, null=True)
+    name_of_equipment = models.CharField(max_length=100, null=True, blank=True, validators=[CharFieldValidator(100)])
 
     class Meta:
         """
@@ -47,7 +50,7 @@ class SubTypeEquipment(models.Model):
 
     name_of_equipment = models.ForeignKey(SubNameEquipment,
                                           related_name="Equipment", default=1, on_delete=models.CASCADE)
-    type_of_equipment = models.CharField(max_length=100, blank=False, null=False)
+    email = models.EmailField(max_length=100, blank=True, verbose_name="Email address")
 
     class Meta:
         """
@@ -59,4 +62,4 @@ class SubTypeEquipment(models.Model):
         verbose_name_plural = "Модель оборудования"
 
     def __str__(self):
-        return f"{self.name_of_equipment} - {self.type_of_equipment}"
+        return f"{self.name_of_equipment}"
