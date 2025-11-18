@@ -301,7 +301,7 @@ def extend_schema_create_accident():
         summary="Создать инцидент",
         description="Создаёт новый инцидент с обязательными полями (number, category, problem, city и др.) в body. "
                     "ID генерируется автоматически. Возвращает созданный объект. "
-                    "Если данные неверны (валидация) — 400. Поддерживает partial? Нет, все required поля обязательны.",
+                    "Если данные неверны (валидация) — 400.",
         responses={
             201: AccidentGetSerializer(many=False),
             400: OpenApiResponse(
