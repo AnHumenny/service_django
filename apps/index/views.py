@@ -26,6 +26,7 @@ now = date.today()
 def mask_surname(full_name: str) -> str:
     return re.sub(r'^\w+', '***** ', full_name)
 
+
 def start_page(request):
     current_year = datetime.now().year
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -50,14 +51,22 @@ def start_page(request):
 
     result_cable = all_cable()
     total_cable_sum = total_cable()
-    result_expansion = result_exp()
-    result_expansion_wttx = res_expansion_wttx()
-    total_sum = total_utp()
+    if total_cable_sum is None:
+        total_cable_sum = 0
 
+    result_expansion = result_exp()
+    if result_expansion is None:
+        result_expansion = 0
+
+    result_expansion_wttx = res_expansion_wttx()
+    if result_expansion_wttx is None:
+        result_expansion_wttx = 0
+
+    total_sum = total_utp()
     if total_sum is None:
-        total = 0
-    else:
-        total = total_sum - total_cable_sum - result_expansion - result_expansion_wttx
+        total_sum = 0
+
+    total = total_sum - total_cable_sum - result_expansion - result_expansion_wttx
 
     sum_month = expire()
     accident_q = accident_query()
@@ -101,22 +110,22 @@ def search(request):
     if search_type == "accident_number":
         accident_name = incident_number(result)
         if accident_name is None:
-            return render(request, 'incident/error.html',
+            return render(request, 'accident/error.html',
                           {'empty': f"По запросу {result} ничего не найдено"})
-        return render(request, 'incident/accident_list.html', {'accident_list': accident_name})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
 
     if search_type == "accident_name":
         accident_name = incident_name(result)
         if accident_name is None:
-            return render(request, 'incident/error.html',
+            return render(request, 'accident/error.html',
                           {'empty': f"По запросу {result} ничего не найдено"})
-        return render(request, 'incident/accident_list.html', {'accident_list': accident_name})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_name})
 
     if search_type == "accident_address":
         accident_addr = incident_addr(result)
         if accident_addr is None:
-            return render(request, 'incident/error.html', {'empty': "По запросу ничего не найдено"})
-        return render(request, 'incident/accident_list.html', {'accident_list': accident_addr})
+            return render(request, 'accident/error.html', {'empty': "По запросу ничего не найдено"})
+        return render(request, 'accident/accident_list.html', {'accident_list': accident_addr})
 
     if search_type == "manual":
         manual_query = man(result)
@@ -135,3 +144,4 @@ def search(request):
         if key_search is None:
             return render(request, 'key/error.html', {'empty': "По запросу ничего не найдено"})
         return render(request, 'key/key_detail.html', {'key': key_search})
+    return None
